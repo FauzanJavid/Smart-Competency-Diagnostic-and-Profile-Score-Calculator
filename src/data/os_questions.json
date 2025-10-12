@@ -1,0 +1,198 @@
+[
+  {
+    "category": "OS",
+    "sub_category": "Process Management",
+    "question_text": "What is a process in operating systems?",
+    "options": [
+      "A program stored on disk",
+      "A program in execution",
+      "A collection of files",
+      "A system call"
+    ],
+    "correct_answer": "A program in execution",
+    "difficulty": "Easy",
+    "type": "mcq"
+  },
+  {
+    "category": "OS",
+    "sub_category": "Process Management",
+    "question_text": "What are the different states of a process?",
+    "options": [
+      "Running, Waiting",
+      "New, Ready, Running, Waiting, Terminated",
+      "Start, Stop, Pause",
+      "Active, Inactive"
+    ],
+    "correct_answer": "New, Ready, Running, Waiting, Terminated",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "OS",
+    "sub_category": "CPU Scheduling",
+    "question_text": "Which scheduling algorithm gives the shortest job the highest priority?",
+    "options": [
+      "FCFS (First Come First Serve)",
+      "SJF (Shortest Job First)",
+      "Round Robin",
+      "Priority Scheduling"
+    ],
+    "correct_answer": "SJF (Shortest Job First)",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "OS",
+    "sub_category": "Memory Management",
+    "question_text": "What is virtual memory?",
+    "options": [
+      "Memory that doesn't exist",
+      "A memory management technique that uses disk space as an extension of RAM",
+      "Memory used by virtual machines",
+      "Cache memory"
+    ],
+    "correct_answer": "A memory management technique that uses disk space as an extension of RAM",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "OS",
+    "sub_category": "Synchronization",
+    "question_text": "What is a deadlock?",
+    "options": [
+      "When a system crashes",
+      "When two or more processes are blocked forever, waiting for each other",
+      "When a process takes too much CPU time",
+      "When memory is full"
+    ],
+    "correct_answer": "When two or more processes are blocked forever, waiting for each other",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "OS",
+    "sub_category": "File Systems",
+    "question_text": "What is an inode in Unix/Linux file systems?",
+    "options": [
+      "A type of file",
+      "A directory structure",
+      "A data structure that stores metadata about a file",
+      "A system process"
+    ],
+    "correct_answer": "A data structure that stores metadata about a file",
+    "difficulty": "Hard",
+    "type": "mcq"
+  },
+  {
+    "category": "OS",
+    "sub_category": "Memory Management",
+    "question_text": "What is paging in operating systems?",
+    "options": [
+      "Reading data from disk",
+      "A memory management scheme that eliminates external fragmentation",
+      "Printing documents",
+      "Moving processes between CPU and memory"
+    ],
+    "correct_answer": "A memory management scheme that eliminates external fragmentation",
+    "difficulty": "Hard",
+    "type": "mcq"
+  },
+  {
+    "category": "OS",
+    "sub_category": "Synchronization",
+    "question_text": "What is a semaphore?",
+    "options": [
+      "A type of memory",
+      "A synchronization primitive used to control access to shared resources",
+      "A file system structure",
+      "A network protocol"
+    ],
+    "correct_answer": "A synchronization primitive used to control access to shared resources",
+    "difficulty": "Hard",
+    "type": "mcq"
+  },
+  {
+    "category": "OS",
+    "sub_category": "Process Management",
+    "question_text": "What is the difference between a process and a thread?",
+    "options": [
+      "No difference",
+      "Processes are faster than threads",
+      "Threads share memory space within a process, processes have separate memory spaces",
+      "Threads are only used in multicore systems"
+    ],
+    "correct_answer": "Threads share memory space within a process, processes have separate memory spaces",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "OS",
+    "sub_category": "CPU Scheduling",
+    "question_text": "What is the time quantum in Round Robin scheduling?",
+    "options": [
+      "The total execution time of a process",
+      "The time slice allocated to each process",
+      "The time taken to switch between processes",
+      "The waiting time in the ready queue"
+    ],
+    "correct_answer": "The time slice allocated to each process",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "OS",
+    "sub_category": "Memory Management",
+    "question_text": "What is fragmentation in memory management?",
+    "options": [
+      "Memory corruption",
+      "Unused memory space that cannot be allocated",
+      "Memory encryption",
+      "Memory compression"
+    ],
+    "correct_answer": "Unused memory space that cannot be allocated",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "OS",
+    "sub_category": "File Systems",
+    "question_text": "What is the purpose of a file allocation table (FAT)?",
+    "options": [
+      "To encrypt files",
+      "To keep track of which clusters belong to which files",
+      "To compress files",
+      "To backup files"
+    ],
+    "correct_answer": "To keep track of which clusters belong to which files",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "OS",
+    "sub_category": "System Calls",
+    "question_text": "What is a system call?",
+    "options": [
+      "A call made by the system to the user",
+      "A request made by a user program to the operating system kernel",
+      "A network call between systems",
+      "A function call within a program"
+    ],
+    "correct_answer": "A request made by a user program to the operating system kernel",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "OS",
+    "sub_category": "Memory Management",
+    "question_text": "What is demand paging?",
+    "options": [
+      "Loading all pages of a process into memory at once",
+      "Loading pages into memory only when they are needed",
+      "Keeping all pages in swap space",
+      "Randomly loading pages"
+    ],
+    "correct_answer": "Loading pages into memory only when they are needed",
+    "difficulty": "Medium",
+    "type": "mcq"
+  }
+]

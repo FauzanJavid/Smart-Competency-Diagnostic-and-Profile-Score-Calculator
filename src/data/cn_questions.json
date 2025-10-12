@@ -1,0 +1,352 @@
+[
+  {
+    "category": "CN",
+    "sub_category": "OSI Model",
+    "question_text": "How many layers are there in the OSI model?",
+    "options": [
+      "5",
+      "6",
+      "7",
+      "8"
+    ],
+    "correct_answer": "7",
+    "difficulty": "Easy",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "OSI Model",
+    "question_text": "Which layer of the OSI model is responsible for routing?",
+    "options": [
+      "Physical Layer",
+      "Data Link Layer",
+      "Network Layer",
+      "Transport Layer"
+    ],
+    "correct_answer": "Network Layer",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "TCP/IP",
+    "question_text": "What is the full form of TCP?",
+    "options": [
+      "Transfer Control Protocol",
+      "Transmission Control Protocol",
+      "Transport Control Protocol",
+      "Terminal Control Protocol"
+    ],
+    "correct_answer": "Transmission Control Protocol",
+    "difficulty": "Easy",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "IP Addressing",
+    "question_text": "What is the range of Class A IP addresses?",
+    "options": [
+      "1.0.0.0 to 126.255.255.255",
+      "128.0.0.0 to 191.255.255.255",
+      "192.0.0.0 to 223.255.255.255",
+      "224.0.0.0 to 239.255.255.255"
+    ],
+    "correct_answer": "1.0.0.0 to 126.255.255.255",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "Subnetting",
+    "question_text": "What is the subnet mask for a /24 network?",
+    "options": [
+      "255.255.0.0",
+      "255.255.255.0",
+      "255.255.255.128",
+      "255.255.255.192"
+    ],
+    "correct_answer": "255.255.255.0",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "HTTP/HTTPS",
+    "question_text": "What is the default port number for HTTP?",
+    "options": [
+      "21",
+      "23",
+      "80",
+      "443"
+    ],
+    "correct_answer": "80",
+    "difficulty": "Easy",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "HTTP/HTTPS",
+    "question_text": "What does HTTPS stand for?",
+    "options": [
+      "HyperText Transfer Protocol Secure",
+      "HyperText Transport Protocol Secure",
+      "HyperText Transmission Protocol Secure",
+      "HyperText Transfer Protocol System"
+    ],
+    "correct_answer": "HyperText Transfer Protocol Secure",
+    "difficulty": "Easy",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "DNS",
+    "question_text": "What does DNS stand for?",
+    "options": [
+      "Domain Name System",
+      "Domain Network Service",
+      "Data Name System",
+      "Domain Name Service"
+    ],
+    "correct_answer": "Domain Name System",
+    "difficulty": "Easy",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "Network Protocols",
+    "question_text": "Which protocol is used for sending emails?",
+    "options": [
+      "HTTP",
+      "FTP",
+      "SMTP",
+      "SNMP"
+    ],
+    "correct_answer": "SMTP",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "Network Devices",
+    "question_text": "What is the primary function of a router?",
+    "options": [
+      "To connect devices within a LAN",
+      "To route packets between different networks",
+      "To filter network traffic",
+      "To provide wireless connectivity"
+    ],
+    "correct_answer": "To route packets between different networks",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "Network Topologies",
+    "question_text": "In which network topology are all devices connected to a central hub?",
+    "options": [
+      "Bus Topology",
+      "Ring Topology",
+      "Star Topology",
+      "Mesh Topology"
+    ],
+    "correct_answer": "Star Topology",
+    "difficulty": "Easy",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "Error Detection",
+    "question_text": "What is the purpose of a checksum in networking?",
+    "options": [
+      "To compress data",
+      "To encrypt data",
+      "To detect errors in transmitted data",
+      "To route packets"
+    ],
+    "correct_answer": "To detect errors in transmitted data",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "Wireless Networks",
+    "question_text": "What does WiFi stand for?",
+    "options": [
+      "Wireless Fidelity",
+      "Wireless Frequency",
+      "Wide Area Network Fidelity",
+      "It's not an acronym"
+    ],
+    "correct_answer": "It's not an acronym",
+    "difficulty": "Hard",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "Network Security",
+    "question_text": "What is a firewall used for?",
+    "options": [
+      "To boost network speed",
+      "To filter and block unauthorized network traffic",
+      "To provide wireless connectivity",
+      "To manage IP addresses"
+    ],
+    "correct_answer": "To filter and block unauthorized network traffic",
+    "difficulty": "Easy",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "TCP/UDP",
+    "question_text": "What is the main difference between TCP and UDP?",
+    "options": [
+      "TCP is faster than UDP",
+      "UDP is connection-oriented, TCP is connectionless",
+      "TCP is connection-oriented and reliable, UDP is connectionless and unreliable",
+      "There is no difference"
+    ],
+    "correct_answer": "TCP is connection-oriented and reliable, UDP is connectionless and unreliable",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "MAC Address",
+    "question_text": "How many bits are there in a MAC address?",
+    "options": [
+      "32 bits",
+      "48 bits",
+      "64 bits",
+      "128 bits"
+    ],
+    "correct_answer": "48 bits",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "Network Protocols",
+    "question_text": "Which protocol is used to automatically assign IP addresses?",
+    "options": [
+      "DNS",
+      "DHCP",
+      "ARP",
+      "ICMP"
+    ],
+    "correct_answer": "DHCP",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "Congestion Control",
+    "question_text": "What is the purpose of flow control in TCP?",
+    "options": [
+      "To route packets efficiently",
+      "To prevent the sender from overwhelming the receiver",
+      "To encrypt data transmission",
+      "To detect transmission errors"
+    ],
+    "correct_answer": "To prevent the sender from overwhelming the receiver",
+    "difficulty": "Hard",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "LAN/WAN",
+    "question_text": "What does LAN stand for?",
+    "options": [
+      "Large Area Network",
+      "Local Area Network",
+      "Long Area Network",
+      "Limited Area Network"
+    ],
+    "correct_answer": "Local Area Network",
+    "difficulty": "Easy",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "IPv6",
+    "question_text": "How many bits are used in an IPv6 address?",
+    "options": [
+      "32 bits",
+      "64 bits",
+      "128 bits",
+      "256 bits"
+    ],
+    "correct_answer": "128 bits",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "Network Protocols",
+    "question_text": "What is the purpose of ARP (Address Resolution Protocol)?",
+    "options": [
+      "To resolve domain names to IP addresses",
+      "To resolve IP addresses to MAC addresses",
+      "To route packets between networks",
+      "To establish secure connections"
+    ],
+    "correct_answer": "To resolve IP addresses to MAC addresses",
+    "difficulty": "Hard",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "Network Performance",
+    "question_text": "What is bandwidth in networking?",
+    "options": [
+      "The physical width of network cables",
+      "The maximum data transfer rate of a network",
+      "The number of users on a network",
+      "The distance data can travel"
+    ],
+    "correct_answer": "The maximum data transfer rate of a network",
+    "difficulty": "Easy",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "Network Protocols",
+    "question_text": "Which protocol is used for secure file transfer?",
+    "options": [
+      "FTP",
+      "HTTP",
+      "SFTP",
+      "SMTP"
+    ],
+    "correct_answer": "SFTP",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "Network Models",
+    "question_text": "How many layers does the TCP/IP model have?",
+    "options": [
+      "3",
+      "4",
+      "5",
+      "7"
+    ],
+    "correct_answer": "4",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "CN",
+    "sub_category": "Network Security",
+    "question_text": "What is a VPN used for?",
+    "options": [
+      "To increase internet speed",
+      "To create a secure connection over a public network",
+      "To manage network traffic",
+      "To block malicious websites"
+    ],
+    "correct_answer": "To create a secure connection over a public network",
+    "difficulty": "Medium",
+    "type": "mcq"
+  }
+]

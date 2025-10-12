@@ -1,0 +1,352 @@
+[
+  {
+    "category": "DBMS",
+    "sub_category": "SQL Basics",
+    "question_text": "What is the correct SQL statement to select all columns from a table named 'employees'?",
+    "options": [
+      "SELECT * FROM employees;",
+      "GET ALL FROM employees;",
+      "FETCH * FROM employees;",
+      "RETRIEVE ALL FROM employees;"
+    ],
+    "correct_answer": "SELECT * FROM employees;",
+    "difficulty": "Easy",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "SQL Basics",
+    "question_text": "Which SQL clause is used to filter records?",
+    "options": [
+      "FILTER",
+      "WHERE",
+      "HAVING",
+      "SELECT"
+    ],
+    "correct_answer": "WHERE",
+    "difficulty": "Easy",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "SQL Joins",
+    "question_text": "Which type of JOIN returns all records from both tables?",
+    "options": [
+      "INNER JOIN",
+      "LEFT JOIN",
+      "RIGHT JOIN",
+      "FULL OUTER JOIN"
+    ],
+    "correct_answer": "FULL OUTER JOIN",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "Normalization",
+    "question_text": "What is the main purpose of database normalization?",
+    "options": [
+      "To increase data redundancy",
+      "To reduce data redundancy and improve data integrity",
+      "To make queries slower",
+      "To increase storage space"
+    ],
+    "correct_answer": "To reduce data redundancy and improve data integrity",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "Normalization",
+    "question_text": "A table is in 1NF if:",
+    "options": [
+      "It has no repeating groups",
+      "It has no partial dependencies",
+      "It has no transitive dependencies",
+      "It has a composite primary key"
+    ],
+    "correct_answer": "It has no repeating groups",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "ACID Properties",
+    "question_text": "Which ACID property ensures that a transaction is treated as a single unit of work?",
+    "options": [
+      "Atomicity",
+      "Consistency",
+      "Isolation",
+      "Durability"
+    ],
+    "correct_answer": "Atomicity",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "Indexing",
+    "question_text": "What is the primary benefit of database indexing?",
+    "options": [
+      "Reduces storage space",
+      "Improves query performance",
+      "Increases data redundancy",
+      "Simplifies database design"
+    ],
+    "correct_answer": "Improves query performance",
+    "difficulty": "Easy",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "SQL Advanced",
+    "question_text": "Which SQL function is used to count the number of rows in a result set?",
+    "options": [
+      "SUM()",
+      "COUNT()",
+      "AVG()",
+      "MAX()"
+    ],
+    "correct_answer": "COUNT()",
+    "difficulty": "Easy",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "SQL Advanced",
+    "question_text": "What does the GROUP BY clause do in SQL?",
+    "options": [
+      "Sorts the result set",
+      "Filters individual rows",
+      "Groups rows that have the same values",
+      "Joins multiple tables"
+    ],
+    "correct_answer": "Groups rows that have the same values",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "Transactions",
+    "question_text": "What command is used to permanently save changes in a transaction?",
+    "options": [
+      "SAVE",
+      "COMMIT",
+      "APPLY",
+      "CONFIRM"
+    ],
+    "correct_answer": "COMMIT",
+    "difficulty": "Easy",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "Constraints",
+    "question_text": "Which constraint ensures that a column cannot have NULL values?",
+    "options": [
+      "UNIQUE",
+      "CHECK",
+      "NOT NULL",
+      "PRIMARY KEY"
+    ],
+    "correct_answer": "NOT NULL",
+    "difficulty": "Easy",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "Keys",
+    "question_text": "What is a foreign key?",
+    "options": [
+      "A key that uniquely identifies each row",
+      "A key that refers to the primary key of another table",
+      "A key that can have NULL values",
+      "A key that is automatically generated"
+    ],
+    "correct_answer": "A key that refers to the primary key of another table",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "SQL Joins",
+    "question_text": "What is the difference between INNER JOIN and LEFT JOIN?",
+    "options": [
+      "No difference",
+      "INNER JOIN returns all records from left table, LEFT JOIN returns matching records only",
+      "LEFT JOIN returns all records from left table, INNER JOIN returns matching records only",
+      "LEFT JOIN is faster than INNER JOIN"
+    ],
+    "correct_answer": "LEFT JOIN returns all records from left table, INNER JOIN returns matching records only",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "Database Design",
+    "question_text": "What is an Entity-Relationship (ER) diagram used for?",
+    "options": [
+      "Query optimization",
+      "Database design and modeling",
+      "Performance monitoring",
+      "Data backup"
+    ],
+    "correct_answer": "Database design and modeling",
+    "difficulty": "Easy",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "SQL Advanced",
+    "question_text": "Which SQL clause is used with GROUP BY to filter groups?",
+    "options": [
+      "WHERE",
+      "FILTER",
+      "HAVING",
+      "SELECT"
+    ],
+    "correct_answer": "HAVING",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "Normalization",
+    "question_text": "What is 2NF (Second Normal Form)?",
+    "options": [
+      "No repeating groups",
+      "In 1NF and no partial dependencies",
+      "In 2NF and no transitive dependencies",
+      "In 3NF and no multi-valued dependencies"
+    ],
+    "correct_answer": "In 1NF and no partial dependencies",
+    "difficulty": "Hard",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "SQL Basics",
+    "question_text": "Which SQL command is used to remove a table from the database?",
+    "options": [
+      "DELETE TABLE",
+      "REMOVE TABLE",
+      "DROP TABLE",
+      "DESTROY TABLE"
+    ],
+    "correct_answer": "DROP TABLE",
+    "difficulty": "Easy",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "Indexing",
+    "question_text": "What is a clustered index?",
+    "options": [
+      "An index that doesn't affect data storage",
+      "An index that determines the physical order of data",
+      "An index on multiple columns",
+      "An index that allows duplicates"
+    ],
+    "correct_answer": "An index that determines the physical order of data",
+    "difficulty": "Hard",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "Concurrency Control",
+    "question_text": "What is a deadlock in database systems?",
+    "options": [
+      "A situation where a transaction takes too long",
+      "A situation where two or more transactions wait indefinitely for each other",
+      "A situation where a database crashes",
+      "A situation where queries return wrong results"
+    ],
+    "correct_answer": "A situation where two or more transactions wait indefinitely for each other",
+    "difficulty": "Hard",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "SQL Advanced",
+    "question_text": "What is a subquery in SQL?",
+    "options": [
+      "A query that runs before the main query",
+      "A query nested inside another query",
+      "A query that updates multiple tables",
+      "A query that creates a new table"
+    ],
+    "correct_answer": "A query nested inside another query",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "Database Security",
+    "question_text": "What is SQL injection?",
+    "options": [
+      "A method to optimize queries",
+      "A security vulnerability where malicious SQL code is inserted",
+      "A way to backup databases",
+      "A technique to improve performance"
+    ],
+    "correct_answer": "A security vulnerability where malicious SQL code is inserted",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "NoSQL",
+    "question_text": "Which of the following is a NoSQL database?",
+    "options": [
+      "MySQL",
+      "PostgreSQL",
+      "MongoDB",
+      "Oracle"
+    ],
+    "correct_answer": "MongoDB",
+    "difficulty": "Easy",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "Database Architecture",
+    "question_text": "What is data independence in DBMS?",
+    "options": [
+      "Data can be accessed independently",
+      "Changes in data structure don't affect applications",
+      "Data is stored independently on different servers",
+      "Data can be modified without constraints"
+    ],
+    "correct_answer": "Changes in data structure don't affect applications",
+    "difficulty": "Hard",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "Backup and Recovery",
+    "question_text": "What is the purpose of database logging?",
+    "options": [
+      "To monitor user activity",
+      "To track database performance",
+      "To enable recovery and maintain transaction history",
+      "To compress database files"
+    ],
+    "correct_answer": "To enable recovery and maintain transaction history",
+    "difficulty": "Medium",
+    "type": "mcq"
+  },
+  {
+    "category": "DBMS",
+    "sub_category": "Performance Optimization",
+    "question_text": "What is query optimization in DBMS?",
+    "options": [
+      "Writing shorter queries",
+      "The process of finding the most efficient way to execute queries",
+      "Removing unnecessary columns from tables",
+      "Using fewer tables in joins"
+    ],
+    "correct_answer": "The process of finding the most efficient way to execute queries",
+    "difficulty": "Medium",
+    "type": "mcq"
+  }
+]
