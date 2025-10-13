@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -17,6 +18,7 @@ import { assessmentTemplates } from "@/lib/assessments";
 const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+      <Header />
       <div className="container py-8">
         {/* Header */}
         <div className="mb-8 animate-slide-up">
