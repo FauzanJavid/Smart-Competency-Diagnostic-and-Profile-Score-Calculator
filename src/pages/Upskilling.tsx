@@ -1,105 +1,125 @@
-import { useState } from 'react';
-import { Header } from '@/components/Header';
+import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { BookOpen, Clock, Award, ExternalLink } from 'lucide-react';
+import { BookOpen, Clock, Award, ExternalLink, Loader2, Sparkles } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { toast } from 'sonner';
 
 const Upskilling = () => {
   const [selectedDomain, setSelectedDomain] = useState('all');
+  const [courses, setCourses] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [userSkills, setUserSkills] = useState<string[]>([]);
 
-  const courses = [
-    {
-      title: 'Advanced React Patterns',
-      domain: 'frontend',
-      level: 'Advanced',
-      duration: '8 weeks',
-      price: 'Free',
-      skills: ['React', 'TypeScript', 'Performance'],
-      url: '#',
-    },
-    {
-      title: 'System Design Mastery',
-      domain: 'backend',
-      level: 'Advanced',
-      duration: '12 weeks',
-      price: '$99',
-      skills: ['Architecture', 'Scalability', 'Databases'],
-      url: '#',
-    },
-    {
-      title: 'AWS Solutions Architect',
-      domain: 'cloud',
-      level: 'Intermediate',
-      duration: '10 weeks',
-      price: '$149',
-      skills: ['AWS', 'Cloud', 'DevOps'],
-      url: '#',
-    },
-    {
-      title: 'Data Structures & Algorithms',
-      domain: 'cs',
-      level: 'Intermediate',
-      duration: '16 weeks',
-      price: 'Free',
-      skills: ['Algorithms', 'Problem Solving', 'Coding'],
-      url: '#',
-    },
-    {
-      title: 'Machine Learning Fundamentals',
-      domain: 'ai',
-      level: 'Beginner',
-      duration: '12 weeks',
-      price: '$199',
-      skills: ['Python', 'ML', 'Data Science'],
-      url: '#',
-    },
-    {
-      title: 'Full Stack Web Development',
-      domain: 'fullstack',
-      level: 'Beginner',
-      duration: '20 weeks',
-      price: 'Free',
-      skills: ['React', 'Node.js', 'MongoDB'],
-      url: '#',
-    },
-  ];
+  useEffect(() => {
+    loadUserProfile();
+  }, []);
 
-  const domains = [
-    { value: 'all', label: 'All Courses' },
-    { value: 'frontend', label: 'Frontend' },
-    { value: 'backend', label: 'Backend' },
-    { value: 'fullstack', label: 'Full Stack' },
-    { value: 'cloud', label: 'Cloud' },
-    { value: 'ai', label: 'AI/ML' },
-    { value: 'cs', label: 'CS Fundamentals' },
-  ];
+  const loadUserProfile = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    const { data } = await supabase
+      .from('profiles')
+      .select('skills')
+      .eq('user_id', user.id)
+      .single();
+
+    if (data?.skills) {
+      const skills = Array.isArray(data.skills) ? data.skills : [];
+      setUserSkills(skills);
+      if (skills.length > 0) {
+        loadCourseSuggestions(skills);
+      }
+    }
+  };
+
+  const loadCourseSuggestions = async (skills: string[]) => {
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('course-suggestions', {
+        body: { skills }
+      });
+
+      if (error) throw error;
+
+      if (data?.courses && Array.isArray(data.courses)) {
+        setCourses(data.courses);
+      } else {
+        toast.error('Failed to load AI-powered course suggestions');
+      }
+    } catch (error) {
+      console.error('Error loading course suggestions:', error);
+      toast.error('Failed to load course suggestions');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const refreshSuggestions = () => {
+    if (userSkills.length > 0) {
+      loadCourseSuggestions(userSkills);
+    } else {
+      toast.error('Please add skills to your profile first');
+    }
+  };
 
   const filteredCourses = selectedDomain === 'all' 
     ? courses 
-    : courses.filter(course => course.domain === selectedDomain);
+    : courses.filter(course => course.level?.toLowerCase() === selectedDomain.toLowerCase());
+
+  const domains = [
+    { value: 'all', label: 'All Courses' },
+    { value: 'beginner', label: 'Beginner' },
+    { value: 'intermediate', label: 'Intermediate' },
+    { value: 'advanced', label: 'Advanced' },
+  ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
-      <Header />
-      <div className="container py-8">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2">Upskilling Hub</h1>
-          <p className="text-muted-foreground text-lg">
-            Curated courses to accelerate your career growth
-          </p>
+    <div className="container py-8">
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-bold mb-2">Upskilling Hub</h1>
+            <p className="text-muted-foreground text-lg">
+              AI-powered course recommendations from top certification organizations
+            </p>
+          </div>
+          <Button onClick={refreshSuggestions} disabled={isLoading}>
+            <Sparkles className="h-4 w-4 mr-2" />
+            {isLoading ? 'Generating...' : 'Refresh AI Suggestions'}
+          </Button>
         </div>
 
-        <Tabs defaultValue="all" className="mb-6" onValueChange={setSelectedDomain}>
-          <TabsList className="grid grid-cols-7 w-full max-w-4xl">
-            {domains.map((domain) => (
-              <TabsTrigger key={domain.value} value={domain.value}>
-                {domain.label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
+        {userSkills.length === 0 && (
+          <Card className="border-2 border-warning mb-6">
+            <CardContent className="pt-6">
+              <p className="text-center text-muted-foreground">
+                Add skills to your profile to get personalized AI-powered course recommendations
+              </p>
+            </CardContent>
+          </Card>
+        )}
+
+        {isLoading ? (
+          <div className="flex items-center justify-center py-20">
+            <div className="text-center">
+              <Loader2 className="h-12 w-12 animate-spin mx-auto mb-4 text-primary" />
+              <p className="text-muted-foreground">Finding the best courses for you...</p>
+            </div>
+          </div>
+        ) : (
+          <>
+            <Tabs defaultValue="all" className="mb-6" onValueChange={setSelectedDomain}>
+              <TabsList className="grid grid-cols-4 w-full max-w-2xl">
+                {domains.map((domain) => (
+                  <TabsTrigger key={domain.value} value={domain.value}>
+                    {domain.label}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </Tabs>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredCourses.map((course, index) => (
@@ -119,6 +139,9 @@ const Upskilling = () => {
                 </div>
                 <CardTitle className="text-xl">{course.title}</CardTitle>
                 <CardDescription className="space-y-2">
+                  {course.provider && (
+                    <p className="text-sm font-medium">{course.provider}</p>
+                  )}
                   <div className="flex items-center gap-4 text-sm">
                     <span className="flex items-center gap-1">
                       <Clock className="h-3 w-3" />
@@ -133,14 +156,14 @@ const Upskilling = () => {
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {course.skills.map((skill, idx) => (
+                  {course.skills?.map((skill: string, idx: number) => (
                     <Badge key={idx} variant="secondary" className="text-xs">
                       {skill}
                     </Badge>
                   ))}
                 </div>
                 <Button className="w-full group-hover:bg-gradient-primary">
-                  Enroll Now
+                  Learn More
                   <ExternalLink className="ml-2 h-4 w-4" />
                 </Button>
               </CardContent>
@@ -151,11 +174,14 @@ const Upskilling = () => {
         {filteredCourses.length === 0 && (
           <div className="text-center py-12">
             <p className="text-muted-foreground text-lg">
-              No courses found in this domain. Check back soon!
+              {courses.length === 0 
+                ? 'Add skills to your profile to get AI-powered course recommendations'
+                : 'No courses found in this category'}
             </p>
           </div>
         )}
-      </div>
+      </>
+    )}
     </div>
   );
 };

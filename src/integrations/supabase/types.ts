@@ -122,6 +122,39 @@ export type Database = {
         }
         Relationships: []
       }
+      user_metrics: {
+        Row: {
+          created_at: string | null
+          id: string
+          last_assessment_date: string | null
+          total_assessments: number | null
+          total_score: number | null
+          total_time_spent: number | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          last_assessment_date?: string | null
+          total_assessments?: number | null
+          total_score?: number | null
+          total_time_spent?: number | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          last_assessment_date?: string | null
+          total_assessments?: number | null
+          total_score?: number | null
+          total_time_spent?: number | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string | null
