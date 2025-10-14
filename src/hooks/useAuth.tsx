@@ -51,6 +51,26 @@ export function useAuth() {
     return { error };
   };
 
+  const signInWithEmail = async (email: string, password: string) => {
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    return { error };
+  };
+
+  const signUpWithEmail = async (email: string, password: string) => {
+    const redirectUrl = `${window.location.origin}/dashboard`;
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: redirectUrl,
+      },
+    });
+    return { error };
+  };
+
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (!error) {
@@ -65,6 +85,8 @@ export function useAuth() {
     loading,
     signInWithGoogle,
     signInWithGithub,
+    signInWithEmail,
+    signUpWithEmail,
     signOut,
   };
 }
