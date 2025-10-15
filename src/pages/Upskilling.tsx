@@ -28,7 +28,7 @@ const Upskilling = () => {
       .single();
 
     if (data?.skills) {
-      const skills = Array.isArray(data.skills) ? data.skills : [];
+      const skills = Array.isArray(data.skills) ? (data.skills as string[]) : [];
       setUserSkills(skills);
       if (skills.length > 0) {
         loadCourseSuggestions(skills);
