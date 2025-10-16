@@ -5,9 +5,10 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Play, CheckCircle2, XCircle, Code2 } from "lucide-react";
+import { Play, CheckCircle2, XCircle, Code2, AlertCircle } from "lucide-react";
 import { Question } from "@/types/assessment";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 interface CodingQuestionProps {
   question: Question;
@@ -44,23 +45,37 @@ const CodingQuestion = ({ question, onCodeChange, initialCode }: CodingQuestionP
   const handleRunTests = async () => {
     setIsRunning(true);
     
-    // Simulate test execution
-    setTimeout(() => {
-      const results = question.test_cases?.map((testCase, index) => ({
-        passed: Math.random() > 0.3, // Random for demo
-        message: `Test Case ${index + 1}: ${testCase.input}`,
-      })) || [];
-      
+    try {
+      const { data, error } = await supabase.functions.invoke('execute-code', {
+        body: {
+          code,
+          language,
+          testCases: question.test_cases || [],
+        },
+      });
+
+      if (error) {
+        toast.error('Failed to execute code');
+        console.error('Execution error:', error);
+        setIsRunning(false);
+        return;
+      }
+
+      const results = data.results || [];
       setTestResults(results);
       setIsRunning(false);
       
-      const passedCount = results.filter(r => r.passed).length;
+      const passedCount = results.filter((r: any) => r.passed).length;
       if (passedCount === results.length) {
-        toast.success(`All ${results.length} test cases passed!`);
+        toast.success(`All ${results.length} test cases passed! ✅`);
       } else {
         toast.warning(`${passedCount}/${results.length} test cases passed`);
       }
-    }, 1500);
+    } catch (error) {
+      console.error('Error running tests:', error);
+      toast.error('Failed to execute code');
+      setIsRunning(false);
+    }
   };
 
   return (
@@ -177,20 +192,51 @@ const CodingQuestion = ({ question, onCodeChange, initialCode }: CodingQuestionP
             <CardTitle className="text-base">Test Results</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-2">
-              {testResults.map((result, index) => (
+            <div className="space-y-3">
+              {testResults.map((result: any, index: number) => (
                 <div 
                   key={index}
-                  className={`flex items-center justify-between p-3 rounded-lg ${
-                    result.passed ? 'bg-success/10' : 'bg-destructive/10'
+                  className={`p-4 rounded-lg border-2 ${
+                    result.passed 
+                      ? 'bg-green-500/10 border-green-500/50' 
+                      : 'bg-red-500/10 border-red-500/50'
                   }`}
                 >
-                  <span className="text-sm">{result.message}</span>
-                  {result.passed ? (
-                    <CheckCircle2 className="h-5 w-5 text-success" />
-                  ) : (
-                    <XCircle className="h-5 w-5 text-destructive" />
-                  )}
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-medium">Test Case {index + 1}</span>
+                      <Badge variant={result.passed ? "default" : "destructive"}>
+                        {result.status}
+                      </Badge>
+                    </div>
+                    {result.passed ? (
+                      <CheckCircle2 className="h-5 w-5 text-green-500" />
+                    ) : (
+                      <XCircle className="h-5 w-5 text-red-500" />
+                    )}
+                  </div>
+                  <div className="space-y-2 text-sm">
+                    <div>
+                      <span className="font-medium">Input: </span>
+                      <code className="bg-muted px-2 py-1 rounded">{result.message.replace('Input: ', '')}</code>
+                    </div>
+                    <div>
+                      <span className="font-medium">Expected: </span>
+                      <code className="bg-muted px-2 py-1 rounded">{result.expected}</code>
+                    </div>
+                    <div>
+                      <span className="font-medium">Output: </span>
+                      <code className={`px-2 py-1 rounded ${
+                        result.passed ? 'bg-green-500/20' : 'bg-red-500/20'
+                      }`}>{result.output || 'No output'}</code>
+                    </div>
+                    {result.error && (
+                      <div className="flex items-start gap-2 mt-2 p-2 bg-destructive/10 rounded">
+                        <AlertCircle className="h-4 w-4 text-destructive mt-0.5 flex-shrink-0" />
+                        <span className="text-destructive text-xs">{result.error}</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
