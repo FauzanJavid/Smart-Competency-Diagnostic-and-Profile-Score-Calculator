@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Play, CheckCircle2, XCircle } from "lucide-react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Play, CheckCircle2, XCircle, Code2 } from "lucide-react";
 import { Question } from "@/types/assessment";
 import { toast } from "sonner";
 
@@ -15,10 +16,24 @@ interface CodingQuestionProps {
 }
 
 const CodingQuestion = ({ question, onCodeChange, initialCode }: CodingQuestionProps) => {
-  const [code, setCode] = useState(initialCode || question.starter_code?.javascript || "");
   const [language, setLanguage] = useState("javascript");
+  const [code, setCode] = useState(initialCode || question.starter_code?.javascript || "");
   const [testResults, setTestResults] = useState<Array<{ passed: boolean; message: string }>>([]);
   const [isRunning, setIsRunning] = useState(false);
+
+  const languageOptions = [
+    { value: "javascript", label: "JavaScript", monacoLang: "javascript" },
+    { value: "python", label: "Python", monacoLang: "python" },
+    { value: "java", label: "Java", monacoLang: "java" },
+    { value: "cpp", label: "C++", monacoLang: "cpp" },
+  ];
+
+  const handleLanguageChange = (newLanguage: string) => {
+    setLanguage(newLanguage);
+    const starterCode = question.starter_code?.[newLanguage as keyof typeof question.starter_code] || "";
+    setCode(starterCode);
+    onCodeChange(starterCode);
+  };
 
   const handleEditorChange = (value: string | undefined) => {
     const newCode = value || "";
@@ -105,9 +120,23 @@ const CodingQuestion = ({ question, onCodeChange, initialCode }: CodingQuestionP
       <Card className="border-2">
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle className="text-base">Code Editor</CardTitle>
             <div className="flex items-center gap-2">
-              <Badge variant="outline">{language}</Badge>
+              <Code2 className="h-5 w-5 text-primary" />
+              <CardTitle className="text-base">Code Editor</CardTitle>
+            </div>
+            <div className="flex items-center gap-3">
+              <Select value={language} onValueChange={handleLanguageChange}>
+                <SelectTrigger className="w-[140px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {languageOptions.map((lang) => (
+                    <SelectItem key={lang.value} value={lang.value}>
+                      {lang.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <Button 
                 size="sm" 
                 onClick={handleRunTests}
@@ -123,8 +152,8 @@ const CodingQuestion = ({ question, onCodeChange, initialCode }: CodingQuestionP
         <CardContent>
           <div className="border rounded-lg overflow-hidden">
             <Editor
-              height="400px"
-              language={language}
+              height="450px"
+              language={languageOptions.find(l => l.value === language)?.monacoLang || "javascript"}
               value={code}
               onChange={handleEditorChange}
               theme="vs-dark"
@@ -134,6 +163,7 @@ const CodingQuestion = ({ question, onCodeChange, initialCode }: CodingQuestionP
                 lineNumbers: "on",
                 scrollBeyondLastLine: false,
                 automaticLayout: true,
+                tabSize: language === "python" ? 4 : 2,
               }}
             />
           </div>
