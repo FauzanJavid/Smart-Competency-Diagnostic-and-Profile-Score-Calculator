@@ -22,8 +22,8 @@ Deno.serve(async (req) => {
     let userPrompt = '';
 
     if (type === 'jobs') {
-      systemPrompt = 'You are a career advisor with deep knowledge of the tech industry and current job market trends. Provide realistic, actionable job role suggestions.';
-      userPrompt = `Based on these skills: ${skills.join(', ')}, suggest 5 realistic job roles that match. For each role, provide: job title, match percentage (realistic), required skills, and average salary range. Format as JSON array with structure: [{ title, match, skills: [], salary }]`;
+      systemPrompt = 'You are a career advisor with deep knowledge of the Indian tech industry and current job market trends. Provide realistic, actionable job role suggestions with Indian salary ranges.';
+      userPrompt = `Based on these skills: ${skills.join(', ')}, suggest 5 realistic job roles that match in the Indian job market. For each role, provide: job title (be specific and realistic), match percentage (realistic 60-95%), required skills array, and average annual salary range in Indian Rupees (use format like "₹8-12 LPA" or "₹15-25 LPA"). Format as JSON array with structure: [{ title, match, skills: [], salary }]`;
     } else if (type === 'trends') {
       systemPrompt = 'You are a technology trends analyst. Provide current, factual information about technology trends in 2025.';
       userPrompt = 'List 5 current technology trends in 2025 that are most relevant for career development. Include: trend name, description, and why it matters. Format as JSON array: [{ name, description, importance }]';
@@ -64,6 +64,19 @@ Deno.serve(async (req) => {
 
     try {
       const parsedData = JSON.parse(aiResponse);
+      
+      // Add job search URLs for job suggestions
+      if (type === 'jobs' && Array.isArray(parsedData)) {
+        parsedData.forEach((job: any) => {
+          const jobTitle = encodeURIComponent(job.title);
+          job.links = {
+            naukri: `https://www.naukri.com/jobs-in-india?k=${jobTitle}`,
+            linkedin: `https://www.linkedin.com/jobs/search/?keywords=${jobTitle}&location=India`,
+            indeed: `https://in.indeed.com/jobs?q=${jobTitle}&l=India`
+          };
+        });
+      }
+      
       return new Response(
         JSON.stringify({ data: parsedData }),
         { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }

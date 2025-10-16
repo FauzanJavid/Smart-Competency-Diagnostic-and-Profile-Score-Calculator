@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { TrendingUp, Target, Award, Briefcase, BookOpen, Loader2, Sparkles } from 'lucide-react';
+import { TrendingUp, Target, Award, Briefcase, BookOpen, Loader2, Sparkles, ExternalLink } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
@@ -149,11 +149,33 @@ const CareerPath = () => {
                         {job.match}% Match
                       </Badge>
                     </div>
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-2 mb-3">
                       {job.skills?.map((skill: string, idx: number) => (
                         <Badge key={idx} variant="secondary">{skill}</Badge>
                       ))}
                     </div>
+                    {job.links && (
+                      <div className="flex flex-wrap gap-2 pt-3 border-t">
+                        <Button variant="outline" size="sm" asChild>
+                          <a href={job.links.naukri} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
+                            <ExternalLink className="h-3 w-3" />
+                            Naukri.com
+                          </a>
+                        </Button>
+                        <Button variant="outline" size="sm" asChild>
+                          <a href={job.links.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
+                            <ExternalLink className="h-3 w-3" />
+                            LinkedIn
+                          </a>
+                        </Button>
+                        <Button variant="outline" size="sm" asChild>
+                          <a href={job.links.indeed} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
+                            <ExternalLink className="h-3 w-3" />
+                            Indeed India
+                          </a>
+                        </Button>
+                      </div>
+                    )}
                   </div>
                 ))}
               </CardContent>
