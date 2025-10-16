@@ -15,13 +15,33 @@ const allQuestions: Question[] = [
 
 export const assessmentTemplates: Assessment[] = [
   {
-    id: "technical-mcq",
-    title: "Technical Assessment",
-    description: "Comprehensive technical knowledge test covering OS, CN, DBMS",
+    id: "computer-networks",
+    title: "Computer Networks",
+    description: "Test your knowledge of networking concepts, protocols, and architectures",
     category: "Technical",
-    duration: 45,
+    duration: 30,
     questions: [],
-    totalQuestions: 30,
+    totalQuestions: 20,
+    difficulty: "Mixed",
+  },
+  {
+    id: "operating-systems",
+    title: "Operating Systems",
+    description: "Assess your understanding of OS concepts, processes, and memory management",
+    category: "Technical",
+    duration: 30,
+    questions: [],
+    totalQuestions: 20,
+    difficulty: "Mixed",
+  },
+  {
+    id: "database-management",
+    title: "Database Management Systems",
+    description: "Evaluate your DBMS knowledge including SQL, normalization, and transactions",
+    category: "Technical",
+    duration: 30,
+    questions: [],
+    totalQuestions: 20,
     difficulty: "Mixed",
   },
   {
@@ -37,21 +57,11 @@ export const assessmentTemplates: Assessment[] = [
   {
     id: "coding-challenge",
     title: "Coding Challenge",
-    description: "Solve real-world programming problems",
+    description: "Solve real-world programming problems and demonstrate coding skills",
     category: "Coding",
     duration: 60,
     questions: [],
     totalQuestions: 3,
-    difficulty: "Mixed",
-  },
-  {
-    id: "full-stack-assessment",
-    title: "Full Stack Developer Assessment",
-    description: "Complete assessment with MCQs and coding challenges",
-    category: "Full Stack",
-    duration: 90,
-    questions: [],
-    totalQuestions: 25,
     difficulty: "Mixed",
   },
 ];
@@ -69,27 +79,20 @@ function generateQuestionsForAssessment(template: Assessment): Question[] {
   const questions: Question[] = [];
 
   switch (template.id) {
-    case "technical-mcq":
-      questions.push(
-        ...getRandomQuestions(osQuestions as Question[], 10),
-        ...getRandomQuestions(cnQuestions as Question[], 10),
-        ...getRandomQuestions(dbmsQuestions as Question[], 10)
-      );
+    case "computer-networks":
+      questions.push(...getRandomQuestions(cnQuestions as Question[], 20));
+      break;
+    case "operating-systems":
+      questions.push(...getRandomQuestions(osQuestions as Question[], 20));
+      break;
+    case "database-management":
+      questions.push(...getRandomQuestions(dbmsQuestions as Question[], 20));
       break;
     case "aptitude-test":
       questions.push(...getRandomQuestions(aptitudeQuestions as Question[], 25));
       break;
     case "coding-challenge":
       questions.push(...getRandomQuestions(codingQuestions as Question[], 3));
-      break;
-    case "full-stack-assessment":
-      questions.push(
-        ...getRandomQuestions(
-          [...osQuestions, ...cnQuestions, ...dbmsQuestions] as Question[],
-          20
-        ),
-        ...getRandomQuestions(codingQuestions as Question[], 5)
-      );
       break;
     default:
       questions.push(...getRandomQuestions(allQuestions, template.totalQuestions));

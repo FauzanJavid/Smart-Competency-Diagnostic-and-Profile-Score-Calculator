@@ -12,7 +12,6 @@ const Assessments = () => {
     Technical: Layers,
     Aptitude: Target,
     Coding: FileCode,
-    'Full Stack': Layers,
   };
 
   return (
