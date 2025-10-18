@@ -11,7 +11,11 @@ import {
   TrendingUp,
   Award,
   Play,
-  ChevronRight
+  ChevronRight,
+  Target,
+  Flame,
+  Star,
+  AlertCircle
 } from "lucide-react";
 import { assessmentTemplates } from "@/lib/assessments";
 import { supabase } from "@/integrations/supabase/client";
@@ -28,6 +32,14 @@ import {
   PieChart,
   Pie,
   Cell,
+  Legend,
+  Area,
+  AreaChart,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  Radar,
 } from "recharts";
 
 const Dashboard = () => {
@@ -83,19 +95,39 @@ const Dashboard = () => {
   };
 
   const performanceData = [
-    { month: 'Jan', score: 65 },
-    { month: 'Feb', score: 72 },
-    { month: 'Mar', score: 78 },
-    { month: 'Apr', score: 85 },
-    { month: 'May', score: metrics.avgScore || 75 },
+    { month: 'Jan', score: 65, assessment: 3 },
+    { month: 'Feb', score: 72, assessment: 5 },
+    { month: 'Mar', score: 78, assessment: 4 },
+    { month: 'Apr', score: 85, assessment: 6 },
+    { month: 'May', score: metrics.avgScore || 75, assessment: metrics.totalAssessments || 2 },
   ];
 
   const skillDistribution = [
-    { name: 'Technical', value: 35, color: 'hsl(var(--chart-1))' },
-    { name: 'Aptitude', value: 30, color: 'hsl(var(--chart-2))' },
-    { name: 'Coding', value: 25, color: 'hsl(var(--chart-3))' },
-    { name: 'Other', value: 10, color: 'hsl(var(--chart-4))' },
+    { name: 'Technical', value: 35 },
+    { name: 'Aptitude', value: 30 },
+    { name: 'Coding', value: 25 },
+    { name: 'Other', value: 10 },
   ];
+
+  const categoryPerformance = [
+    { category: 'DSA', score: 85, max: 100 },
+    { category: 'OS', score: 78, max: 100 },
+    { category: 'DBMS', score: 82, max: 100 },
+    { category: 'CN', score: 75, max: 100 },
+    { category: 'Aptitude', score: 88, max: 100 },
+  ];
+
+  const radarData = [
+    { subject: 'Problem Solving', score: 85, fullMark: 100 },
+    { subject: 'Speed', score: 78, fullMark: 100 },
+    { subject: 'Accuracy', score: 90, fullMark: 100 },
+    { subject: 'Consistency', score: 82, fullMark: 100 },
+    { subject: 'Complexity', score: 75, fullMark: 100 },
+  ];
+
+  const studyStreak = 7;
+  const topSkills = ['Data Structures', 'Algorithms', 'Problem Solving'];
+  const weakAreas = ['System Design', 'Advanced SQL'];
 
   return (
     <div className="container py-8">
@@ -160,9 +192,79 @@ const Dashboard = () => {
         </Card>
       </div>
 
+      {/* Study Streak & Performance Insights */}
+      <div className="grid md:grid-cols-3 gap-6 mb-8">
+        <Card className="border-2 hover:shadow-xl transition-all animate-fade-in group" style={{ animationDelay: '0.4s' }}>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Flame className="h-5 w-5 text-warning transition-transform group-hover:scale-110 group-hover:rotate-12" />
+              Study Streak
+            </CardTitle>
+            <CardDescription>Keep the momentum going!</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="text-center">
+              <div className="text-5xl font-bold bg-gradient-to-r from-warning to-destructive bg-clip-text text-transparent mb-2">
+                {studyStreak}
+              </div>
+              <p className="text-sm text-muted-foreground">days in a row</p>
+              <Progress value={(studyStreak / 30) * 100} className="mt-4" />
+              <p className="text-xs text-muted-foreground mt-2">
+                {30 - studyStreak} days until 30-day badge
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-2 hover:shadow-xl transition-all animate-fade-in group" style={{ animationDelay: '0.5s' }}>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Star className="h-5 w-5 text-warning transition-transform group-hover:scale-110 group-hover:rotate-12" />
+              Top Skills
+            </CardTitle>
+            <CardDescription>Your strongest areas</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {topSkills.map((skill, index) => (
+                <div key={index} className="flex items-center gap-2 p-2 rounded-lg bg-success/10 border border-success/20 transition-all hover:border-success/40">
+                  <Target className="h-4 w-4 text-success" />
+                  <span className="text-sm font-medium">{skill}</span>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-2 hover:shadow-xl transition-all animate-fade-in group" style={{ animationDelay: '0.6s' }}>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <AlertCircle className="h-5 w-5 text-destructive transition-transform group-hover:scale-110 group-hover:rotate-12" />
+              Focus Areas
+            </CardTitle>
+            <CardDescription>Areas to improve</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {weakAreas.map((area, index) => (
+                <div key={index} className="flex items-center gap-2 p-2 rounded-lg bg-destructive/10 border border-destructive/20 transition-all hover:border-destructive/40">
+                  <Target className="h-4 w-4 text-destructive" />
+                  <span className="text-sm font-medium">{area}</span>
+                </div>
+              ))}
+              <Link to="/upskilling">
+                <Button variant="outline" size="sm" className="w-full mt-2">
+                  Get Recommendations
+                </Button>
+              </Link>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
       {/* Charts */}
       <div className="grid md:grid-cols-2 gap-6 mb-8">
-        <Card className="border-2 hover:shadow-xl transition-all animate-fade-in group" style={{ animationDelay: '0.4s' }}>
+        <Card className="border-2 hover:shadow-xl transition-all animate-fade-in group" style={{ animationDelay: '0.7s' }}>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="h-5 w-5 text-primary transition-transform group-hover:scale-110" />
@@ -171,33 +273,47 @@ const Dashboard = () => {
             <CardDescription>Your score progression over time</CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={250}>
-              <LineChart data={performanceData}>
-                <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-                <XAxis dataKey="month" />
-                <YAxis />
+            <ResponsiveContainer width="100%" height={280}>
+              <AreaChart data={performanceData}>
+                <defs>
+                  <linearGradient id="scoreGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.8} />
+                    <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0.1} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.3} />
+                <XAxis 
+                  dataKey="month" 
+                  stroke="hsl(var(--muted-foreground))"
+                  tick={{ fill: 'hsl(var(--muted-foreground))' }}
+                />
+                <YAxis 
+                  stroke="hsl(var(--muted-foreground))"
+                  tick={{ fill: 'hsl(var(--muted-foreground))' }}
+                />
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: 'hsl(var(--background))',
-                    border: '2px solid hsl(var(--border))',
-                    borderRadius: '8px'
+                    backgroundColor: 'hsl(var(--card))',
+                    border: '2px solid hsl(var(--primary))',
+                    borderRadius: '12px',
+                    boxShadow: '0 8px 24px hsl(var(--primary) / 0.15)'
                   }}
+                  labelStyle={{ color: 'hsl(var(--foreground))', fontWeight: 'bold' }}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="score" 
-                  stroke="hsl(var(--primary))" 
+                <Area
+                  type="monotone"
+                  dataKey="score"
+                  stroke="hsl(var(--primary))"
                   strokeWidth={3}
-                  dot={{ fill: 'hsl(var(--primary))', r: 4 }}
-                  activeDot={{ r: 6, strokeWidth: 2 }}
+                  fill="url(#scoreGradient)"
                   animationDuration={1500}
                 />
-              </LineChart>
+              </AreaChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
-        <Card className="border-2 hover:shadow-xl transition-all animate-fade-in group" style={{ animationDelay: '0.5s' }}>
+        <Card className="border-2 hover:shadow-xl transition-all animate-fade-in group" style={{ animationDelay: '0.8s' }}>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Brain className="h-5 w-5 text-primary transition-transform group-hover:scale-110" />
@@ -206,32 +322,156 @@ const Dashboard = () => {
             <CardDescription>Assessment categories breakdown</CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={250}>
+            <ResponsiveContainer width="100%" height={280}>
               <PieChart>
+                <defs>
+                  <linearGradient id="pieGradient1" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="hsl(var(--chart-1))" />
+                    <stop offset="100%" stopColor="hsl(var(--chart-2))" />
+                  </linearGradient>
+                  <linearGradient id="pieGradient2" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="hsl(var(--chart-2))" />
+                    <stop offset="100%" stopColor="hsl(var(--chart-3))" />
+                  </linearGradient>
+                  <linearGradient id="pieGradient3" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="hsl(var(--chart-3))" />
+                    <stop offset="100%" stopColor="hsl(var(--chart-4))" />
+                  </linearGradient>
+                  <linearGradient id="pieGradient4" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="hsl(var(--chart-4))" />
+                    <stop offset="100%" stopColor="hsl(var(--chart-5))" />
+                  </linearGradient>
+                </defs>
                 <Pie
                   data={skillDistribution}
                   cx="50%"
                   cy="50%"
-                  labelLine={false}
+                  labelLine={{
+                    stroke: 'hsl(var(--foreground))',
+                    strokeWidth: 1
+                  }}
                   label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                  outerRadius={80}
-                  fill="#8884d8"
+                  outerRadius={90}
                   dataKey="value"
                   animationBegin={200}
-                  animationDuration={1000}
+                  animationDuration={1200}
                 >
                   {skillDistribution.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
+                    <Cell 
+                      key={`cell-${index}`} 
+                      fill={`url(#pieGradient${index + 1})`}
+                      className="hover:opacity-80 transition-opacity cursor-pointer"
+                    />
                   ))}
                 </Pie>
                 <Tooltip 
                   contentStyle={{ 
-                    backgroundColor: 'hsl(var(--background))',
-                    border: '2px solid hsl(var(--border))',
-                    borderRadius: '8px'
+                    backgroundColor: 'hsl(var(--card))',
+                    border: '2px solid hsl(var(--primary))',
+                    borderRadius: '12px',
+                    boxShadow: '0 8px 24px hsl(var(--primary) / 0.15)'
                   }}
                 />
               </PieChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        <Card className="border-2 hover:shadow-xl transition-all animate-fade-in group" style={{ animationDelay: '0.9s' }}>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Award className="h-5 w-5 text-primary transition-transform group-hover:scale-110" />
+              Category Performance
+            </CardTitle>
+            <CardDescription>Score breakdown by subject</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={280}>
+              <BarChart data={categoryPerformance} layout="vertical">
+                <defs>
+                  <linearGradient id="barGradient" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stopColor="hsl(var(--primary))" />
+                    <stop offset="100%" stopColor="hsl(var(--chart-2))" />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.3} />
+                <XAxis 
+                  type="number"
+                  stroke="hsl(var(--muted-foreground))"
+                  tick={{ fill: 'hsl(var(--muted-foreground))' }}
+                />
+                <YAxis 
+                  dataKey="category" 
+                  type="category"
+                  stroke="hsl(var(--muted-foreground))"
+                  tick={{ fill: 'hsl(var(--muted-foreground))' }}
+                  width={80}
+                />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: 'hsl(var(--card))',
+                    border: '2px solid hsl(var(--primary))',
+                    borderRadius: '12px',
+                    boxShadow: '0 8px 24px hsl(var(--primary) / 0.15)'
+                  }}
+                  cursor={{ fill: 'hsl(var(--primary) / 0.1)' }}
+                />
+                <Bar 
+                  dataKey="score" 
+                  fill="url(#barGradient)"
+                  radius={[0, 8, 8, 0]}
+                  animationDuration={1200}
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        <Card className="border-2 hover:shadow-xl transition-all animate-fade-in group" style={{ animationDelay: '1.0s' }}>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Target className="h-5 w-5 text-primary transition-transform group-hover:scale-110" />
+              Skill Radar
+            </CardTitle>
+            <CardDescription>Multi-dimensional performance analysis</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ResponsiveContainer width="100%" height={280}>
+              <RadarChart data={radarData}>
+                <defs>
+                  <linearGradient id="radarGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.8} />
+                    <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0.2} />
+                  </linearGradient>
+                </defs>
+                <PolarGrid stroke="hsl(var(--border))" />
+                <PolarAngleAxis 
+                  dataKey="subject"
+                  tick={{ fill: 'hsl(var(--foreground))', fontSize: 12 }}
+                />
+                <PolarRadiusAxis 
+                  angle={90}
+                  domain={[0, 100]}
+                  tick={{ fill: 'hsl(var(--muted-foreground))' }}
+                />
+                <Radar
+                  name="Score"
+                  dataKey="score"
+                  stroke="hsl(var(--primary))"
+                  fill="url(#radarGradient)"
+                  fillOpacity={0.6}
+                  strokeWidth={2}
+                  animationDuration={1200}
+                />
+                <Tooltip 
+                  contentStyle={{ 
+                    backgroundColor: 'hsl(var(--card))',
+                    border: '2px solid hsl(var(--primary))',
+                    borderRadius: '12px',
+                    boxShadow: '0 8px 24px hsl(var(--primary) / 0.15)'
+                  }}
+                />
+              </RadarChart>
             </ResponsiveContainer>
           </CardContent>
         </Card>

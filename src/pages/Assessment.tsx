@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Header } from "@/components/Header";
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,9 @@ import {
   ChevronRight, 
   Flag,
   Shield,
-  CheckCircle2
+  CheckCircle2,
+  Maximize,
+  Minimize
 } from "lucide-react";
 import { getAssessmentById, calculateScore } from "@/lib/assessments";
 import { Assessment as AssessmentType, Question } from "@/types/assessment";
@@ -28,6 +30,8 @@ const Assessment = () => {
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [timeRemaining, setTimeRemaining] = useState(0);
   const [isProctoring, setIsProctoring] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (id) {
@@ -35,8 +39,26 @@ const Assessment = () => {
       if (loadedAssessment) {
         setAssessment(loadedAssessment);
         setTimeRemaining(loadedAssessment.duration * 60); // Convert to seconds
+        // Request fullscreen on load
+        requestFullscreen();
       }
     }
+
+    // Handle fullscreen change events
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+      if (!document.fullscreenElement) {
+        toast.warning("Please stay in fullscreen mode during the assessment");
+      }
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      }
+    };
   }, [id]);
 
   useEffect(() => {
@@ -70,6 +92,29 @@ const Assessment = () => {
     }
   };
 
+  const requestFullscreen = async () => {
+    if (containerRef.current && !document.fullscreenElement) {
+      try {
+        await containerRef.current.requestFullscreen();
+        setIsFullscreen(true);
+      } catch (error) {
+        console.error("Error requesting fullscreen:", error);
+        toast.error("Could not enter fullscreen mode");
+      }
+    }
+  };
+
+  const exitFullscreen = async () => {
+    if (document.fullscreenElement) {
+      try {
+        await document.exitFullscreen();
+        setIsFullscreen(false);
+      } catch (error) {
+        console.error("Error exiting fullscreen:", error);
+      }
+    }
+  };
+
   const handleSubmit = () => {
     if (!assessment) return;
 
@@ -82,6 +127,11 @@ const Assessment = () => {
       totalQuestions: assessment.questions.length,
       timeTaken: assessment.duration * 60 - timeRemaining,
     }));
+
+    // Exit fullscreen before navigating
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    }
 
     toast.success("Assessment submitted successfully!");
     navigate("/results");
@@ -101,7 +151,7 @@ const Assessment = () => {
   const seconds = timeRemaining % 60;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+    <div ref={containerRef} className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
       {/* Header Bar */}
       <div className="bg-card border-b sticky top-0 z-50 shadow-sm">
         <div className="container py-4">
@@ -113,6 +163,24 @@ const Assessment = () => {
               </Badge>
             </div>
             <div className="flex items-center gap-6">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={isFullscreen ? exitFullscreen : requestFullscreen}
+                className="hover:bg-primary/10"
+              >
+                {isFullscreen ? (
+                  <>
+                    <Minimize className="h-4 w-4 mr-2" />
+                    Exit Fullscreen
+                  </>
+                ) : (
+                  <>
+                    <Maximize className="h-4 w-4 mr-2" />
+                    Fullscreen
+                  </>
+                )}
+              </Button>
               <div className="flex items-center gap-2">
                 <Shield className={`h-4 w-4 ${isProctoring ? 'text-success animate-pulse-dot' : 'text-muted-foreground'}`} />
                 <span className="text-sm font-medium">

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { useLocation } from "react-router-dom";
 
 interface Message {
   role: "user" | "assistant";
@@ -13,6 +14,7 @@ interface Message {
 }
 
 export function AIMentor() {
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -22,6 +24,13 @@ export function AIMentor() {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  // Hide AI Mentor during assessments
+  const isAssessmentPage = location.pathname.startsWith('/assessment/');
+  
+  if (isAssessmentPage) {
+    return null;
+  }
 
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
