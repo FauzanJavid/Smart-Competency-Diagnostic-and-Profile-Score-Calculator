@@ -21,6 +21,7 @@ import { getAssessmentById, calculateScore } from "@/lib/assessments";
 import { Assessment as AssessmentType, Question } from "@/types/assessment";
 import CodingQuestion from "@/components/CodingQuestion";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const Assessment = () => {
   const { id } = useParams<{ id: string }>();
@@ -115,12 +116,63 @@ const Assessment = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!assessment) return;
 
     const result = calculateScore(assessment.questions, answers);
     
-    // Store result in localStorage for demo
+    // Get user
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
+
+    // Save assessment result to database
+    const { error: insertError } = await supabase
+      .from('assessment_results')
+      .insert({
+        user_id: user.id,
+        assessment_type: assessment.id,
+        score: result.score,
+        total_questions: assessment.questions.length,
+        answers: result.details,
+        time_taken: assessment.duration * 60 - timeRemaining
+      });
+
+    if (insertError) {
+      console.error('Error saving assessment result:', insertError);
+      toast.error('Failed to save assessment results');
+      return;
+    }
+
+    // Update or create user metrics
+    const { data: existingMetrics } = await supabase
+      .from('user_metrics')
+      .select('*')
+      .eq('user_id', user.id)
+      .single();
+
+    if (existingMetrics) {
+      await supabase
+        .from('user_metrics')
+        .update({
+          total_assessments: existingMetrics.total_assessments + 1,
+          total_score: existingMetrics.total_score + result.score,
+          total_time_spent: existingMetrics.total_time_spent + (assessment.duration * 60 - timeRemaining),
+          last_assessment_date: new Date().toISOString()
+        })
+        .eq('user_id', user.id);
+    } else {
+      await supabase
+        .from('user_metrics')
+        .insert({
+          user_id: user.id,
+          total_assessments: 1,
+          total_score: result.score,
+          total_time_spent: assessment.duration * 60 - timeRemaining,
+          last_assessment_date: new Date().toISOString()
+        });
+    }
+
+    // Store result in localStorage for immediate display
     localStorage.setItem('lastAssessmentResult', JSON.stringify({
       ...result,
       assessmentTitle: assessment.title,

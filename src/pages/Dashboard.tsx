@@ -48,9 +48,13 @@ const Dashboard = () => {
     avgScore: 0,
     timeSpent: 0,
   });
+  const [assessmentResults, setAssessmentResults] = useState<any[]>([]);
+  const [studyStreak, setStudyStreak] = useState(0);
+  const [categoryScores, setCategoryScores] = useState<any[]>([]);
 
   useEffect(() => {
     loadMetrics();
+    loadAssessmentResults();
     
     // Set up real-time subscription
     const channel = supabase
@@ -64,6 +68,17 @@ const Dashboard = () => {
         },
         () => {
           loadMetrics();
+        }
+      )
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'assessment_results'
+        },
+        () => {
+          loadAssessmentResults();
         }
       )
       .subscribe();
@@ -91,43 +106,114 @@ const Dashboard = () => {
           : 0,
         timeSpent: Math.round((data.total_time_spent || 0) / 3600), // Convert to hours
       });
+
+      // Calculate study streak
+      if (data.last_assessment_date) {
+        const lastDate = new Date(data.last_assessment_date);
+        const today = new Date();
+        const diffTime = today.getTime() - lastDate.getTime();
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        setStudyStreak(diffDays <= 1 ? Math.max(1, 7 - diffDays) : 0);
+      }
     }
   };
 
-  const performanceData = [
-    { month: 'Jan', score: 65, assessment: 3 },
-    { month: 'Feb', score: 72, assessment: 5 },
-    { month: 'Mar', score: 78, assessment: 4 },
-    { month: 'Apr', score: 85, assessment: 6 },
-    { month: 'May', score: metrics.avgScore || 75, assessment: metrics.totalAssessments || 2 },
-  ];
+  const loadAssessmentResults = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return;
 
-  const skillDistribution = [
-    { name: 'Technical', value: 35 },
-    { name: 'Aptitude', value: 30 },
-    { name: 'Coding', value: 25 },
-    { name: 'Other', value: 10 },
-  ];
+    const { data } = await supabase
+      .from('assessment_results')
+      .select('*')
+      .eq('user_id', user.id)
+      .order('created_at', { ascending: false })
+      .limit(20);
 
-  const categoryPerformance = [
-    { category: 'DSA', score: 85, max: 100 },
-    { category: 'OS', score: 78, max: 100 },
-    { category: 'DBMS', score: 82, max: 100 },
-    { category: 'CN', score: 75, max: 100 },
-    { category: 'Aptitude', score: 88, max: 100 },
-  ];
+    if (data) {
+      setAssessmentResults(data);
+      
+      // Calculate category scores
+      const categoryMap = new Map<string, { total: number; count: number }>();
+      data.forEach((result: any) => {
+        const existing = categoryMap.get(result.assessment_type) || { total: 0, count: 0 };
+        categoryMap.set(result.assessment_type, {
+          total: existing.total + result.score,
+          count: existing.count + 1
+        });
+      });
 
+      const scores = Array.from(categoryMap.entries()).map(([category, stats]) => ({
+        category: category.replace(/-/g, ' ').toUpperCase(),
+        score: Math.round(stats.total / stats.count),
+        max: 100
+      }));
+      setCategoryScores(scores);
+    }
+  };
+
+  // Calculate performance data from actual results
+  const performanceData = assessmentResults.length > 0
+    ? assessmentResults
+        .slice(0, 5)
+        .reverse()
+        .map((result: any, index: number) => ({
+          month: new Date(result.created_at).toLocaleDateString('en-US', { month: 'short' }),
+          score: result.score,
+          assessment: index + 1
+        }))
+    : [
+        { month: 'Jan', score: 0, assessment: 0 },
+        { month: 'Feb', score: 0, assessment: 0 },
+        { month: 'Mar', score: 0, assessment: 0 },
+        { month: 'Apr', score: 0, assessment: 0 },
+        { month: 'May', score: metrics.avgScore || 0, assessment: metrics.totalAssessments || 0 },
+      ];
+
+  // Calculate skill distribution from actual assessment types
+  const skillDistribution = assessmentResults.length > 0
+    ? (() => {
+        const typeCount = new Map<string, number>();
+        assessmentResults.forEach((result: any) => {
+          const type = result.assessment_type;
+          typeCount.set(type, (typeCount.get(type) || 0) + 1);
+        });
+        const total = assessmentResults.length;
+        return Array.from(typeCount.entries()).map(([name, count]) => ({
+          name: name.replace(/-/g, ' ').toUpperCase(),
+          value: Math.round((count / total) * 100)
+        }));
+      })()
+    : [
+        { name: 'Technical', value: 35 },
+        { name: 'Aptitude', value: 30 },
+        { name: 'Coding', value: 25 },
+        { name: 'Other', value: 10 },
+      ];
+
+  // Calculate category performance from real data
+  const categoryPerformance = categoryScores.length > 0
+    ? categoryScores
+    : [
+        { category: 'DSA', score: 0, max: 100 },
+        { category: 'OS', score: 0, max: 100 },
+        { category: 'DBMS', score: 0, max: 100 },
+        { category: 'CN', score: 0, max: 100 },
+        { category: 'Aptitude', score: 0, max: 100 },
+      ];
+
+  // Calculate top skills and weak areas from category performance
+  const sortedCategories = [...categoryPerformance].sort((a, b) => b.score - a.score);
+  const topSkills = sortedCategories.slice(0, 3).map(c => c.category);
+  const weakAreas = sortedCategories.slice(-2).filter(c => c.score < 70).map(c => c.category);
+
+  // Calculate radar data from actual metrics
   const radarData = [
-    { subject: 'Problem Solving', score: 85, fullMark: 100 },
-    { subject: 'Speed', score: 78, fullMark: 100 },
-    { subject: 'Accuracy', score: 90, fullMark: 100 },
-    { subject: 'Consistency', score: 82, fullMark: 100 },
-    { subject: 'Complexity', score: 75, fullMark: 100 },
+    { subject: 'Problem Solving', score: Math.min(metrics.avgScore + 5, 100), fullMark: 100 },
+    { subject: 'Speed', score: Math.min(metrics.timeSpent > 0 ? Math.round((metrics.totalAssessments / metrics.timeSpent) * 20) : 50, 100), fullMark: 100 },
+    { subject: 'Accuracy', score: metrics.avgScore, fullMark: 100 },
+    { subject: 'Consistency', score: Math.min(studyStreak * 10, 100), fullMark: 100 },
+    { subject: 'Complexity', score: categoryPerformance.length > 0 ? Math.round(categoryPerformance.reduce((sum, c) => sum + c.score, 0) / categoryPerformance.length) : 50, fullMark: 100 },
   ];
-
-  const studyStreak = 7;
-  const topSkills = ['Data Structures', 'Algorithms', 'Problem Solving'];
-  const weakAreas = ['System Design', 'Advanced SQL'];
 
   return (
     <div className="container py-8">
@@ -225,14 +311,20 @@ const Dashboard = () => {
             <CardDescription>Your strongest areas</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              {topSkills.map((skill, index) => (
-                <div key={index} className="flex items-center gap-2 p-2 rounded-lg bg-success/10 border border-success/20 transition-all hover:border-success/40">
-                  <Target className="h-4 w-4 text-success" />
-                  <span className="text-sm font-medium">{skill}</span>
-                </div>
-              ))}
-            </div>
+            {topSkills.length > 0 ? (
+              <div className="space-y-3">
+                {topSkills.map((skill, index) => (
+                  <div key={index} className="flex items-center gap-2 p-2 rounded-lg bg-success/10 border border-success/20 transition-all hover:border-success/40">
+                    <Target className="h-4 w-4 text-success" />
+                    <span className="text-sm font-medium">{skill}</span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground text-center py-4">
+                Complete assessments to see your top skills
+              </p>
+            )}
           </CardContent>
         </Card>
 
@@ -245,19 +337,25 @@ const Dashboard = () => {
             <CardDescription>Areas to improve</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              {weakAreas.map((area, index) => (
-                <div key={index} className="flex items-center gap-2 p-2 rounded-lg bg-destructive/10 border border-destructive/20 transition-all hover:border-destructive/40">
-                  <Target className="h-4 w-4 text-destructive" />
-                  <span className="text-sm font-medium">{area}</span>
-                </div>
-              ))}
-              <Link to="/upskilling">
-                <Button variant="outline" size="sm" className="w-full mt-2">
-                  Get Recommendations
-                </Button>
-              </Link>
-            </div>
+            {weakAreas.length > 0 ? (
+              <div className="space-y-3">
+                {weakAreas.map((area, index) => (
+                  <div key={index} className="flex items-center gap-2 p-2 rounded-lg bg-destructive/10 border border-destructive/20 transition-all hover:border-destructive/40">
+                    <Target className="h-4 w-4 text-destructive" />
+                    <span className="text-sm font-medium">{area}</span>
+                  </div>
+                ))}
+                <Link to="/upskilling">
+                  <Button variant="outline" size="sm" className="w-full mt-2">
+                    Get Recommendations
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground text-center py-4">
+                Great job! Keep taking assessments to identify areas for improvement
+              </p>
+            )}
           </CardContent>
         </Card>
       </div>
