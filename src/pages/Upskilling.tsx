@@ -2,13 +2,11 @@ import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BookOpen, Clock, Award, ExternalLink, Loader2, Sparkles } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 
 const Upskilling = () => {
-  const [selectedDomain, setSelectedDomain] = useState('all');
   const [courses, setCourses] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [userSkills, setUserSkills] = useState<string[]>([]);
@@ -66,16 +64,6 @@ const Upskilling = () => {
     }
   };
 
-  const filteredCourses = selectedDomain === 'all' 
-    ? courses 
-    : courses.filter(course => course.level?.toLowerCase() === selectedDomain.toLowerCase());
-
-  const domains = [
-    { value: 'all', label: 'All Courses' },
-    { value: 'beginner', label: 'Beginner' },
-    { value: 'intermediate', label: 'Intermediate' },
-    { value: 'advanced', label: 'Advanced' },
-  ];
 
   return (
     <div className="container py-8">
@@ -110,32 +98,15 @@ const Upskilling = () => {
             </div>
           </div>
         ) : (
-          <>
-            <Tabs defaultValue="all" className="mb-6" onValueChange={setSelectedDomain}>
-              <TabsList className="grid grid-cols-4 w-full max-w-2xl">
-                {domains.map((domain) => (
-                  <TabsTrigger key={domain.value} value={domain.value}>
-                    {domain.label}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </Tabs>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCourses.map((course, index) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {courses.map((course, index) => (
             <Card 
               key={index}
               className="border-2 hover:border-primary/50 transition-all hover:shadow-lg group"
             >
               <CardHeader>
-                <div className="flex items-start justify-between mb-2">
+                <div className="flex items-start mb-2">
                   <BookOpen className="h-6 w-6 text-primary" />
-                  <Badge variant={
-                    course.level === 'Beginner' ? 'secondary' :
-                    course.level === 'Intermediate' ? 'outline' : 'default'
-                  }>
-                    {course.level}
-                  </Badge>
                 </div>
                 <CardTitle className="text-xl">{course.title}</CardTitle>
                 <CardDescription className="space-y-2">
@@ -168,20 +139,17 @@ const Upskilling = () => {
                 </Button>
               </CardContent>
             </Card>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
-        {filteredCourses.length === 0 && (
+        {courses.length === 0 && !isLoading && (
           <div className="text-center py-12">
             <p className="text-muted-foreground text-lg">
-              {courses.length === 0 
-                ? 'Add skills to your profile to get AI-powered course recommendations'
-                : 'No courses found in this category'}
+              Add skills to your profile to get AI-powered course recommendations
             </p>
           </div>
         )}
-      </>
-    )}
     </div>
   );
 };
