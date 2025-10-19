@@ -48,12 +48,14 @@ const Index = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/dashboard">
                 <Button size="lg" className="bg-gradient-primary text-primary-foreground hover:opacity-90 shadow-lg animate-pulse-glow">
-                  Start Assessment
+                  Start Your Journey
                 </Button>
               </Link>
-              <Button size="lg" variant="outline" className="border-2">
-                View Demo
-              </Button>
+              <Link to="/auth">
+                <Button size="lg" variant="outline" className="border-2 border-primary/30 hover:border-primary/50 hover:bg-primary/5">
+                  Sign In
+                </Button>
+              </Link>
             </div>
           </div>
         </div>
@@ -66,25 +68,30 @@ const Index = () => {
       {/* Features Grid */}
       <section className="container py-24">
         <div className="text-center mb-16 animate-slide-up">
-          <h2 className="text-3xl font-bold mb-4">Everything You Need to Succeed</h2>
-          <p className="text-muted-foreground text-lg">
-            Comprehensive tools and AI-powered insights for your assessment journey
+          <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
+            <Target className="mr-1 h-3 w-3" />
+            Powerful Features
+          </Badge>
+          <h2 className="text-4xl font-bold mb-4">Everything You Need to Succeed</h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Comprehensive tools and AI-powered insights designed to accelerate your professional growth
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, index) => (
             <Card 
               key={index} 
-              className="border-2 hover:border-primary/50 transition-all hover:shadow-lg hover:-translate-y-1 animate-fade-in"
-              style={{ animationDelay: `${index * 0.1}s` }}
+              className="group border-2 hover:border-primary/50 transition-all hover:shadow-xl hover:-translate-y-2 animate-fade-in bg-gradient-to-br from-card to-card/50 relative overflow-hidden"
+              style={{ animationDelay: `${index * 0.05}s` }}
             >
+              <div className="absolute inset-0 bg-gradient-primary opacity-0 group-hover:opacity-5 transition-opacity" />
               <CardHeader>
-                <div className="w-12 h-12 rounded-lg bg-gradient-primary flex items-center justify-center mb-4">
-                  <feature.icon className="h-6 w-6 text-primary-foreground" />
+                <div className="w-14 h-14 rounded-xl bg-gradient-primary flex items-center justify-center mb-4 group-hover:scale-110 transition-transform shadow-lg">
+                  <feature.icon className="h-7 w-7 text-primary-foreground" />
                 </div>
-                <CardTitle>{feature.title}</CardTitle>
-                <CardDescription>{feature.description}</CardDescription>
+                <CardTitle className="text-lg group-hover:text-primary transition-colors">{feature.title}</CardTitle>
+                <CardDescription className="text-sm">{feature.description}</CardDescription>
               </CardHeader>
             </Card>
           ))}
@@ -92,14 +99,25 @@ const Index = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="bg-gradient-hero py-24">
-        <div className="container">
-          <div className="grid md:grid-cols-4 gap-8 text-center">
+      <section className="relative bg-gradient-hero py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+        <div className="container relative z-10">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold mb-3">Trusted by Thousands of Learners</h2>
+            <p className="text-muted-foreground">Join a growing community of successful professionals</p>
+          </div>
+          <div className="grid md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
-              <div key={index} className="animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                <div className="stat-hero gradient-text mb-2">{stat.value}</div>
-                <div className="text-muted-foreground font-medium">{stat.label}</div>
-              </div>
+              <Card 
+                key={index} 
+                className="text-center border-2 border-primary/20 bg-background/50 backdrop-blur-sm hover:shadow-xl transition-all hover:-translate-y-1 animate-slide-up"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <CardContent className="pt-8 pb-8">
+                  <div className="stat-hero gradient-text mb-2">{stat.value}</div>
+                  <div className="text-muted-foreground font-medium">{stat.label}</div>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>
@@ -107,19 +125,34 @@ const Index = () => {
 
       {/* CTA Section */}
       <section className="container py-24">
-        <Card className="border-2 border-primary/20 bg-gradient-to-br from-card to-primary/5 overflow-hidden relative">
+        <Card className="border-2 border-primary/20 bg-gradient-to-br from-card via-card to-primary/10 overflow-hidden relative">
           <div className="absolute inset-0 bg-gradient-primary opacity-5" />
-          <CardContent className="pt-12 pb-12 text-center relative z-10">
-            <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Career?</h2>
-            <p className="text-muted-foreground mb-8 text-lg max-w-2xl mx-auto">
-              Join thousands of professionals who have accelerated their growth with our 
-              AI-powered assessment platform.
+          <div className="absolute top-10 right-10 w-64 h-64 bg-primary/20 rounded-full blur-3xl" />
+          <div className="absolute bottom-10 left-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl" />
+          <CardContent className="pt-16 pb-16 text-center relative z-10">
+            <Badge className="mb-6 bg-primary/10 text-primary border-primary/20">
+              <Sparkles className="mr-1 h-3 w-3" />
+              Start Your Success Story
+            </Badge>
+            <h2 className="text-4xl font-bold mb-4">Ready to Transform Your Career?</h2>
+            <p className="text-muted-foreground mb-10 text-lg max-w-2xl mx-auto leading-relaxed">
+              Join thousands of professionals who have accelerated their growth with SkillSync's 
+              AI-powered assessment platform. Get personalized insights, track your progress, and 
+              unlock your full potential.
             </p>
-            <Link to="/dashboard">
-              <Button size="lg" className="bg-gradient-primary text-primary-foreground hover:opacity-90 shadow-xl">
-                Get Started Now
-              </Button>
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/auth">
+                <Button size="lg" className="bg-gradient-primary text-primary-foreground hover:opacity-90 shadow-xl hover:shadow-2xl transition-all">
+                  <Sparkles className="mr-2 h-4 w-4" />
+                  Get Started Free
+                </Button>
+              </Link>
+              <Link to="/dashboard">
+                <Button size="lg" variant="outline" className="border-2 border-primary/30 hover:border-primary/50 hover:bg-primary/5">
+                  Explore Features
+                </Button>
+              </Link>
+            </div>
           </CardContent>
         </Card>
       </section>

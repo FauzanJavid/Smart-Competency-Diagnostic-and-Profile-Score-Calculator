@@ -37,7 +37,7 @@ export const TopNav = () => {
           {/* Logo */}
           <Link to="/dashboard" className="flex items-center gap-2 font-bold text-xl">
             <Sparkles className="h-6 w-6 text-primary" />
-            <span className="gradient-text">AssessHub</span>
+            <span className="gradient-text">SkillSync</span>
           </Link>
 
           {/* Navigation Links */}
