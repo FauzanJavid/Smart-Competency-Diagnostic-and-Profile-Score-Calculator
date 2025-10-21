@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800" role="img" aria-labelledby="title desc">
+  <title id="title">SkillSync Architecture Diagram</title>
+  <desc id="desc">High-level architecture of the SkillSync application showing the React + Vite frontend, Supabase services (Auth, Postgres DB, Realtime, Edge Functions) and external services (Lovable AI, Judge0).</desc>
+  <style>
+    .group { fill: #f7fafc; stroke: #cbd5e0; stroke-width: 2; }
+    .box { fill: #ffffff; stroke: #94a3b8; stroke-width: 1.5; rx: 8; }
+    .title { font: 600 18px system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji"; fill: #1f2937; }
+    .subtitle { font: 600 14px system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial; fill: #111827; }
+    .label { font: 13px system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial; fill: #374151; }
+    .muted { fill: #6b7280; font: 12px system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial; }
+    .chip { fill: #eef2ff; stroke: #6366f1; stroke-width: 1; rx: 6; }
+    .chipText { font: 12px system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial; fill: #3730a3; }
+    .arrow { stroke: #64748b; stroke-width: 2; fill: none; }
+    .arrowLabel { font: 12px system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial; fill: #334155; }
+  </style>
+
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#64748b" />
+    </marker>
+  </defs>
+
+  <!-- Frontend Group -->
+  <rect class="group" x="40" y="40" width="360" height="620" rx="12" />
+  <text class="title" x="60" y="70">Frontend (React + Vite)</text>
+
+  <!-- Frontend: UI & Routing -->
+  <rect class="box" x="60" y="100" width="320" height="110" />
+  <text class="subtitle" x="80" y="130">UI & Routing</text>
+  <g>
+    <rect class="chip" x="80" y="145" width="110" height="24" />
+    <text class="chipText" x="90" y="161">React Router</text>
+    <rect class="chip" x="200" y="145" width="140" height="24" />
+    <text class="chipText" x="210" y="161">shadcn UI + Tailwind</text>
+  </g>
+  <text class="muted" x="80" y="186">Reusable components, navigation, layout</text>
+
+  <!-- Frontend: Data & State -->
+  <rect class="box" x="60" y="225" width="320" height="120" />
+  <text class="subtitle" x="80" y="255">Data & State</text>
+  <g>
+    <rect class="chip" x="80" y="270" width="135" height="24" />
+    <text class="chipText" x="90" y="286">TanStack Query</text>
+    <rect class="chip" x="225" y="270" width="135" height="24" />
+    <text class="chipText" x="235" y="286">supabase-js</text>
+  </g>
+  <text class="muted" x="80" y="311">Server-state, caching, auth/session</text>
+
+  <!-- Frontend: Editors & Charts -->
+  <rect class="box" x="60" y="360" width="320" height="120" />
+  <text class="subtitle" x="80" y="390">Editors & Charts</text>
+  <g>
+    <rect class="chip" x="80" y="405" width="125" height="24" />
+    <text class="chipText" x="90" y="421">Monaco Editor</text>
+    <rect class="chip" x="215" y="405" width="95" height="24" />
+    <text class="chipText" x="225" y="421">Recharts</text>
+  </g>
+  <text class="muted" x="80" y="446">Coding questions and analytics visuals</text>
+
+  <!-- Frontend: Pages -->
+  <rect class="box" x="60" y="495" width="320" height="120" />
+  <text class="subtitle" x="80" y="525">Pages</text>
+  <text class="label" x="80" y="550">Landing, Auth, Dashboard, Assessments, Results, Profile, Career Path, Upskilling, Coding Challenges</text>
+
+  <!-- Supabase Group -->
+  <rect class="group" x="420" y="40" width="380" height="620" rx="12" />
+  <text class="title" x="440" y="70">Supabase Platform</text>
+
+  <!-- Supabase: Auth -->
+  <rect class="box" x="440" y="100" width="340" height="80" />
+  <text class="subtitle" x="460" y="130">Auth</text>
+  <text class="label" x="460" y="156">Email + OAuth (Google/GitHub), session management</text>
+
+  <!-- Supabase: Database -->
+  <rect class="box" x="440" y="195" width="340" height="160" />
+  <text class="subtitle" x="460" y="225">Postgres Database</text>
+  <text class="label" x="460" y="250">Tables:</text>
+  <text class="label" x="480" y="270">- assessment_results</text>
+  <text class="label" x="480" y="290">- coding_submissions</text>
+  <text class="label" x="480" y="310">- profiles</text>
+  <text class="label" x="480" y="330">- user_metrics</text>
+  <text class="label" x="480" y="350">- user_roles</text>
+
+  <!-- Supabase: Realtime -->
+  <rect class="box" x="440" y="370" width="340" height="80" />
+  <text class="subtitle" x="460" y="400">Realtime</text>
+  <text class="label" x="460" y="426">Live updates for dashboard metrics and activity</text>
+
+  <!-- Supabase: Edge Functions -->
+  <rect class="box" x="440" y="465" width="340" height="175" />
+  <text class="subtitle" x="460" y="495">Edge Functions</text>
+  <text class="label" x="460" y="520">- ai-mentor</text>
+  <text class="label" x="460" y="540">- career-suggestions</text>
+  <text class="label" x="460" y="560">- course-suggestions</text>
+  <text class="label" x="460" y="580">- execute-code</text>
+  <text class="muted" x="460" y="605">Secure server-side integrations and business logic</text>
+
+  <!-- External Services Group -->
+  <rect class="group" x="830" y="40" width="330" height="620" rx="12" />
+  <text class="title" x="850" y="70">External Services</text>
+
+  <!-- External: Lovable AI -->
+  <rect class="box" x="850" y="100" width="290" height="110" />
+  <text class="subtitle" x="870" y="130">Lovable AI</text>
+  <text class="label" x="870" y="156">AI mentor, recommendations, insights</text>
+
+  <!-- External: Judge0 -->
+  <rect class="box" x="850" y="225" width="290" height="110" />
+  <text class="subtitle" x="870" y="255">Judge0</text>
+  <text class="label" x="870" y="281">Code compilation and execution</text>
+
+  <!-- External: Other APIs (optional) -->
+  <rect class="box" x="850" y="350" width="290" height="110" />
+  <text class="subtitle" x="870" y="380">Other Providers</text>
+  <text class="label" x="870" y="406">Email, storage, and third-party data</text>
+
+  <!-- Arrows from Frontend to Supabase services -->
+  <path class="arrow" marker-end="url(#arrowhead)" d="M380,160 C410,160 420,160 440,160" />
+  <text class="arrowLabel" x="395" y="150">Auth</text>
+
+  <path class="arrow" marker-end="url(#arrowhead)" d="M380,285 C410,285 420,285 440,285" />
+  <text class="arrowLabel" x="395" y="275">CRUD (PostgREST)</text>
+
+  <path class="arrow" marker-end="url(#arrowhead)" d="M380,420 C410,420 420,420 440,420" />
+  <text class="arrowLabel" x="395" y="410">Realtime subscribe</text>
+
+  <path class="arrow" marker-end="url(#arrowhead)" d="M380,555 C410,555 420,555 440,555" />
+  <text class="arrowLabel" x="395" y="545">Invoke Edge Functions</text>
+
+  <!-- Arrows from Edge Functions to External Services -->
+  <path class="arrow" marker-end="url(#arrowhead)" d="M780,520 C805,520 820,520 850,520" />
+  <text class="arrowLabel" x="800" y="510">HTTP/REST</text>
+
+  <path class="arrow" marker-end="url(#arrowhead)" d="M780,270 C805,270 820,270 850,270" />
+  <text class="arrowLabel" x="800" y="260">HTTP/REST</text>
+
+  <!-- Legend / Notes -->
+  <g>
+    <rect class="box" x="40" y="680" width="1120" height="70" />
+    <text class="subtitle" x="60" y="710">Notes</text>
+    <text class="label" x="60" y="735">- Frontend uses TanStack Query + supabase-js for data fetching, caching, and session handling. Realtime subscriptions update dashboards live. Edge Functions encapsulate sensitive logic and call Lovable AI and Judge0. Results and profiles persist in Supabase Postgres.</text>
+  </g>
+</svg>

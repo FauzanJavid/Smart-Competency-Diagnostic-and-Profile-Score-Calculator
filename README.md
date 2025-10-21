@@ -71,3 +71,8 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+
+## Architecture
+
+An SVG architecture diagram is available at public/architecture.svg (also mirrored as public/architecture-diagram.svg).
+When running the dev server, you can open it directly in a browser: http://localhost:5173/architecture.svg
