@@ -5,13 +5,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Github, Chrome } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { authSchema } from '@/lib/validation';
 
 const Auth = () => {
-  const { user, signInWithGoogle, signInWithGithub, signInWithEmail, signUpWithEmail } = useAuth();
+  const { user, signInWithEmail, signUpWithEmail } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [email, setEmail] = useState('');
@@ -24,28 +23,6 @@ const Auth = () => {
       navigate('/dashboard');
     }
   }, [user, navigate]);
-
-  const handleGoogleSignIn = async () => {
-    const { error } = await signInWithGoogle();
-    if (error) {
-      toast({
-        title: 'Error',
-        description: error.message,
-        variant: 'destructive',
-      });
-    }
-  };
-
-  const handleGithubSignIn = async () => {
-    const { error } = await signInWithGithub();
-    if (error) {
-      toast({
-        title: 'Error',
-        description: error.message,
-        variant: 'destructive',
-      });
-    }
-  };
 
   const handleEmailSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -154,39 +131,6 @@ const Auth = () => {
                   {loading ? 'Signing in...' : 'Sign In'}
                 </Button>
               </form>
-              
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">
-                    Or continue with
-                  </span>
-                </div>
-              </div>
-              
-              <div className="space-y-2">
-                <Button
-                  onClick={handleGoogleSignIn}
-                  variant="outline"
-                  className="w-full"
-                  type="button"
-                >
-                  <Chrome className="mr-2 h-4 w-4" />
-                  Google
-                </Button>
-                
-                <Button
-                  onClick={handleGithubSignIn}
-                  variant="outline"
-                  className="w-full"
-                  type="button"
-                >
-                  <Github className="mr-2 h-4 w-4" />
-                  GitHub
-                </Button>
-              </div>
             </TabsContent>
             
             <TabsContent value="signup" className="space-y-4">
@@ -219,39 +163,6 @@ const Auth = () => {
                   {loading ? 'Creating account...' : 'Sign Up'}
                 </Button>
               </form>
-              
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">
-                    Or continue with
-                  </span>
-                </div>
-              </div>
-              
-              <div className="space-y-2">
-                <Button
-                  onClick={handleGoogleSignIn}
-                  variant="outline"
-                  className="w-full"
-                  type="button"
-                >
-                  <Chrome className="mr-2 h-4 w-4" />
-                  Google
-                </Button>
-                
-                <Button
-                  onClick={handleGithubSignIn}
-                  variant="outline"
-                  className="w-full"
-                  type="button"
-                >
-                  <Github className="mr-2 h-4 w-4" />
-                  GitHub
-                </Button>
-              </div>
             </TabsContent>
           </Tabs>
 

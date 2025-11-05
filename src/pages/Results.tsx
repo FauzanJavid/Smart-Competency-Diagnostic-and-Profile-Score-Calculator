@@ -217,17 +217,19 @@ const Results = () => {
 
         {/* Actions */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button size="lg" variant="outline" className="border-2">
-            <Download className="mr-2 h-4 w-4" />
-            Download Certificate
-          </Button>
+          <Link to="/upskilling">
+            <Button size="lg" variant="outline" className="border-2">
+              <Download className="mr-2 h-4 w-4" />
+              Get Certification Courses
+            </Button>
+          </Link>
           <Link to="/dashboard">
             <Button size="lg" variant="outline" className="border-2">
               <Home className="mr-2 h-4 w-4" />
               Back to Dashboard
             </Button>
           </Link>
-          <Link to="/dashboard">
+          <Link to="/assessments">
             <Button size="lg" className="bg-gradient-primary text-primary-foreground">
               Take Another Assessment
             </Button>

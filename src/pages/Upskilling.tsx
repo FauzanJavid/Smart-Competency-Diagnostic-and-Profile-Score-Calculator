@@ -133,9 +133,18 @@ const Upskilling = () => {
                     </Badge>
                   ))}
                 </div>
-                <Button className="w-full group-hover:bg-gradient-primary">
-                  Learn More
-                  <ExternalLink className="ml-2 h-4 w-4" />
+                <Button 
+                  className="w-full group-hover:bg-gradient-primary"
+                  asChild
+                >
+                  <a 
+                    href={course.link || course.url || '#'} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    Learn More
+                    <ExternalLink className="ml-2 h-4 w-4" />
+                  </a>
                 </Button>
               </CardContent>
             </Card>
