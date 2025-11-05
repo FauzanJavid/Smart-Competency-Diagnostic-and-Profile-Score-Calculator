@@ -7,6 +7,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useLocation } from "react-router-dom";
+import { messageSchema } from "@/lib/validation";
 
 interface Message {
   role: "user" | "assistant";
@@ -34,6 +35,13 @@ export function AIMentor() {
 
   const sendMessage = async () => {
     if (!input.trim() || isLoading) return;
+
+    // Validate message
+    const validation = messageSchema.safeParse(input);
+    if (!validation.success) {
+      toast.error(validation.error.errors[0].message);
+      return;
+    }
 
     const userMessage: Message = { role: "user", content: input };
     setMessages((prev) => [...prev, userMessage]);

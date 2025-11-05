@@ -10,6 +10,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Loader2, Plus, X, Briefcase, GraduationCap, Code } from 'lucide-react';
+import { profileSchema, skillSchema, skillsArraySchema, educationSchema, experienceSchema } from '@/lib/validation';
 
 interface Education {
   institution: string;
@@ -80,6 +81,58 @@ const Profile = () => {
   const handleSave = async () => {
     setSaving(true);
     try {
+      // Validate profile
+      const profileValidation = profileSchema.safeParse(profile);
+      if (!profileValidation.success) {
+        toast({
+          title: 'Validation Error',
+          description: profileValidation.error.errors[0].message,
+          variant: 'destructive',
+        });
+        setSaving(false);
+        return;
+      }
+      
+      // Validate skills
+      const skillsValidation = skillsArraySchema.safeParse(skills);
+      if (!skillsValidation.success) {
+        toast({
+          title: 'Validation Error',
+          description: skillsValidation.error.errors[0].message,
+          variant: 'destructive',
+        });
+        setSaving(false);
+        return;
+      }
+      
+      // Validate education
+      for (const edu of education) {
+        const eduValidation = educationSchema.safeParse(edu);
+        if (!eduValidation.success) {
+          toast({
+            title: 'Validation Error',
+            description: `Education: ${eduValidation.error.errors[0].message}`,
+            variant: 'destructive',
+          });
+          setSaving(false);
+          return;
+        }
+      }
+      
+      // Validate experience
+      for (const exp of experience) {
+        const expValidation = experienceSchema.safeParse(exp);
+        if (!expValidation.success) {
+          toast({
+            title: 'Validation Error',
+            description: `Experience: ${expValidation.error.errors[0].message}`,
+            variant: 'destructive',
+          });
+          setSaving(false);
+          return;
+        }
+      }
+
       const { error } = await supabase
         .from('profiles')
         .update({
@@ -110,10 +163,40 @@ const Profile = () => {
   };
 
   const addSkill = () => {
-    if (newSkill.trim() && !skills.includes(newSkill.trim())) {
-      setSkills([...skills, newSkill.trim()]);
-      setNewSkill('');
+    const trimmedSkill = newSkill.trim();
+    if (!trimmedSkill) return;
+    
+    // Validate skill
+    const validation = skillSchema.safeParse(trimmedSkill);
+    if (!validation.success) {
+      toast({
+        title: 'Validation Error',
+        description: validation.error.errors[0].message,
+        variant: 'destructive',
+      });
+      return;
     }
+    
+    if (skills.includes(trimmedSkill)) {
+      toast({
+        title: 'Duplicate Skill',
+        description: 'This skill has already been added',
+        variant: 'destructive',
+      });
+      return;
+    }
+    
+    if (skills.length >= 20) {
+      toast({
+        title: 'Maximum Skills Reached',
+        description: 'You can only add up to 20 skills',
+        variant: 'destructive',
+      });
+      return;
+    }
+    
+    setSkills([...skills, trimmedSkill]);
+    setNewSkill('');
   };
 
   const removeSkill = (skill: string) => {

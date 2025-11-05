@@ -9,7 +9,46 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { skills } = await req.json();
+    const body = await req.json();
+    const { skills } = body;
+    
+    // Input validation
+    if (!Array.isArray(skills)) {
+      return new Response(
+        JSON.stringify({ error: 'Skills must be an array' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    
+    if (skills.length === 0) {
+      return new Response(
+        JSON.stringify({ error: 'At least one skill is required' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    
+    if (skills.length > 20) {
+      return new Response(
+        JSON.stringify({ error: 'Maximum 20 skills allowed' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    
+    // Validate each skill
+    for (const skill of skills) {
+      if (typeof skill !== 'string' || skill.trim().length === 0) {
+        return new Response(
+          JSON.stringify({ error: 'All skills must be non-empty strings' }),
+          { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+      if (skill.length > 50) {
+        return new Response(
+          JSON.stringify({ error: 'Each skill must be less than 50 characters' }),
+          { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+    }
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
 
     if (!LOVABLE_API_KEY) {

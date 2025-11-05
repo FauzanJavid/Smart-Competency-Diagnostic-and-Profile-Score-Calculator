@@ -1,13 +1,13 @@
 project_id = "anbbntvecpjxeeshmtwk"
 
 [functions.ai-mentor]
-verify_jwt = false
+verify_jwt = true
 
 [functions.career-suggestions]
-verify_jwt = false
+verify_jwt = true
 
 [functions.course-suggestions]
-verify_jwt = false
+verify_jwt = true
 
 [functions.execute-code]
 verify_jwt = true

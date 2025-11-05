@@ -9,7 +9,31 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { message } = await req.json();
+    const body = await req.json();
+    const { message } = body;
+    
+    // Input validation
+    if (!message || typeof message !== 'string') {
+      return new Response(
+        JSON.stringify({ error: 'Message is required and must be a string' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    
+    const trimmedMessage = message.trim();
+    if (trimmedMessage.length === 0) {
+      return new Response(
+        JSON.stringify({ error: 'Message cannot be empty' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    
+    if (trimmedMessage.length > 2000) {
+      return new Response(
+        JSON.stringify({ error: 'Message must be less than 2000 characters' }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
     const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
 
     if (!LOVABLE_API_KEY) {
@@ -31,7 +55,7 @@ Deno.serve(async (req) => {
           },
           {
             role: 'user',
-            content: message,
+            content: trimmedMessage,
           },
         ],
       }),
