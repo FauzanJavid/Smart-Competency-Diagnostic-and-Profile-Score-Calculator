@@ -1,0 +1,289 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 1000">
+  <title>SkillSync System Architecture</title>
+  <desc>Complete system architecture showing frontend, backend, database, and external integrations</desc>
+  
+  <defs>
+    <style>
+      .layer-box { fill: #1e293b; stroke: #3b82f6; stroke-width: 2; rx: 8; }
+      .component-box { fill: #334155; stroke: #60a5fa; stroke-width: 1.5; rx: 6; }
+      .service-box { fill: #1e3a5f; stroke: #3b82f6; stroke-width: 2; rx: 6; }
+      .external-box { fill: #1e403b; stroke: #10b981; stroke-width: 2; rx: 6; }
+      .db-box { fill: #3f2a5f; stroke: #a78bfa; stroke-width: 2; rx: 6; }
+      .title-text { fill: #f1f5f9; font-family: Arial, sans-serif; font-size: 18px; font-weight: bold; }
+      .subtitle-text { fill: #cbd5e1; font-family: Arial, sans-serif; font-size: 14px; font-weight: 600; }
+      .component-text { fill: #e2e8f0; font-family: Arial, sans-serif; font-size: 12px; }
+      .small-text { fill: #94a3b8; font-family: Arial, sans-serif; font-size: 10px; }
+      .arrow { stroke: #3b82f6; stroke-width: 2; fill: none; marker-end: url(#arrowhead); }
+      .data-arrow { stroke: #a78bfa; stroke-width: 2; fill: none; marker-end: url(#arrowhead-data); }
+      .external-arrow { stroke: #10b981; stroke-width: 2; fill: none; marker-end: url(#arrowhead-external); }
+      .section-bg { fill: #0f172a; opacity: 0.3; rx: 10; }
+    </style>
+    
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#3b82f6" />
+    </marker>
+    <marker id="arrowhead-data" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#a78bfa" />
+    </marker>
+    <marker id="arrowhead-external" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#10b981" />
+    </marker>
+  </defs>
+  
+  <!-- Background sections -->
+  <rect class="section-bg" x="20" y="80" width="460" height="380"/>
+  <rect class="section-bg" x="520" y="80" width="400" height="380"/>
+  <rect class="section-bg" x="960" y="80" width="400" height="380"/>
+  <rect class="section-bg" x="20" y="500" width="1340" height="180"/>
+  <rect class="section-bg" x="20" y="720" width="1340" height="220"/>
+  
+  <!-- Main Title -->
+  <text x="700" y="40" class="title-text" text-anchor="middle">SkillSync System Architecture</text>
+  <text x="700" y="60" class="small-text" text-anchor="middle">Three-Tier Architecture with Serverless Backend</text>
+  
+  <!-- FRONTEND LAYER -->
+  <text x="250" y="105" class="title-text" text-anchor="middle">Presentation Layer</text>
+  
+  <!-- React Application -->
+  <rect class="layer-box" x="40" y="120" width="420" height="320"/>
+  <text x="250" y="145" class="subtitle-text" text-anchor="middle">React SPA (TypeScript + Vite)</text>
+  
+  <!-- UI Framework -->
+  <rect class="component-box" x="60" y="160" width="180" height="70"/>
+  <text x="150" y="180" class="component-text" text-anchor="middle">UI Framework</text>
+  <text x="150" y="198" class="small-text" text-anchor="middle">React Router DOM</text>
+  <text x="150" y="212" class="small-text" text-anchor="middle">shadcn/ui + Tailwind CSS</text>
+  <text x="150" y="226" class="small-text" text-anchor="middle">Lucide Icons</text>
+  
+  <!-- State Management -->
+  <rect class="component-box" x="260" y="160" width="180" height="70"/>
+  <text x="350" y="180" class="component-text" text-anchor="middle">State Management</text>
+  <text x="350" y="198" class="small-text" text-anchor="middle">TanStack Query (Server)</text>
+  <text x="350" y="212" class="small-text" text-anchor="middle">React Hooks (Local)</text>
+  <text x="350" y="226" class="small-text" text-anchor="middle">Custom Hooks</text>
+  
+  <!-- Core Features -->
+  <rect class="component-box" x="60" y="245" width="180" height="85"/>
+  <text x="150" y="265" class="component-text" text-anchor="middle">Core Components</text>
+  <text x="150" y="283" class="small-text" text-anchor="middle">Monaco Editor (Coding)</text>
+  <text x="150" y="297" class="small-text" text-anchor="middle">Recharts (Visualization)</text>
+  <text x="150" y="311" class="small-text" text-anchor="middle">React Hook Form</text>
+  <text x="150" y="325" class="small-text" text-anchor="middle">Zod Validation</text>
+  
+  <!-- Pages -->
+  <rect class="component-box" x="260" y="245" width="180" height="85"/>
+  <text x="350" y="265" class="component-text" text-anchor="middle">Application Pages</text>
+  <text x="350" y="283" class="small-text" text-anchor="middle">Dashboard, Profile, Auth</text>
+  <text x="350" y="297" class="small-text" text-anchor="middle">Assessments (MCQ + Coding)</text>
+  <text x="350" y="311" class="small-text" text-anchor="middle">Results, Career Path</text>
+  <text x="350" y="325" class="small-text" text-anchor="middle">Upskilling, AI Mentor</text>
+  
+  <!-- Protected Routes -->
+  <rect class="component-box" x="60" y="345" width="380" height="40"/>
+  <text x="250" y="365" class="component-text" text-anchor="middle">Auth Guard (Protected Routes) + Session Management</text>
+  <text x="250" y="380" class="small-text" text-anchor="middle">JWT Tokens with Auto-Refresh | localStorage Persistence</text>
+  
+  <!-- Supabase Client -->
+  <rect class="component-box" x="60" y="395" width="380" height="35"/>
+  <text x="250" y="415" class="component-text" text-anchor="middle">Supabase Client (supabase-js)</text>
+  <text x="250" y="428" class="small-text" text-anchor="middle">Auto-generated TypeScript types</text>
+  
+  <!-- APPLICATION LAYER -->
+  <text x="720" y="105" class="title-text" text-anchor="middle">Application Layer (Serverless)</text>
+  
+  <!-- Edge Functions -->
+  <rect class="layer-box" x="540" y="120" width="360" height="320"/>
+  <text x="720" y="145" class="subtitle-text" text-anchor="middle">Supabase Edge Functions (Deno)</text>
+  
+  <!-- Execute Code -->
+  <rect class="service-box" x="560" y="160" width="150" height="80"/>
+  <text x="635" y="180" class="component-text" text-anchor="middle">execute-code</text>
+  <text x="635" y="198" class="small-text" text-anchor="middle">Code Execution</text>
+  <text x="635" y="212" class="small-text" text-anchor="middle">Judge0 Integration</text>
+  <text x="635" y="226" class="small-text" text-anchor="middle">Multi-language</text>
+  <text x="635" y="240" class="small-text" text-anchor="middle">Test Case Validation</text>
+  
+  <!-- AI Mentor -->
+  <rect class="service-box" x="730" y="160" width="150" height="80"/>
+  <text x="805" y="180" class="component-text" text-anchor="middle">ai-mentor</text>
+  <text x="805" y="198" class="small-text" text-anchor="middle">Career Guidance</text>
+  <text x="805" y="212" class="small-text" text-anchor="middle">Conversational AI</text>
+  <text x="805" y="226" class="small-text" text-anchor="middle">Context-Aware</text>
+  <text x="805" y="240" class="small-text" text-anchor="middle">Lovable AI Gateway</text>
+  
+  <!-- Course Suggestions -->
+  <rect class="service-box" x="560" y="255" width="150" height="80"/>
+  <text x="635" y="275" class="component-text" text-anchor="middle">course-suggestions</text>
+  <text x="635" y="293" class="small-text" text-anchor="middle">Learning Paths</text>
+  <text x="635" y="307" class="small-text" text-anchor="middle">Skill-based</text>
+  <text x="635" y="321" class="small-text" text-anchor="middle">AI-Powered</text>
+  <text x="635" y="335" class="small-text" text-anchor="middle">Structured Output</text>
+  
+  <!-- Career Suggestions -->
+  <rect class="service-box" x="730" y="255" width="150" height="80"/>
+  <text x="805" y="275" class="component-text" text-anchor="middle">career-suggestions</text>
+  <text x="805" y="293" class="small-text" text-anchor="middle">Job Recommendations</text>
+  <text x="805" y="307" class="small-text" text-anchor="middle">Trend Analysis</text>
+  <text x="805" y="321" class="small-text" text-anchor="middle">Roadmap Generation</text>
+  <text x="805" y="335" class="small-text" text-anchor="middle">Live Job Links</text>
+  
+  <!-- Auth & Security -->
+  <rect class="service-box" x="560" y="350" width="320" height="40"/>
+  <text x="720" y="370" class="component-text" text-anchor="middle">Authentication Service</text>
+  <text x="720" y="385" class="small-text" text-anchor="middle">Email/Password | JWT Tokens | Password Reset | Session Management</text>
+  
+  <!-- API Gateway -->
+  <rect class="service-box" x="560" y="400" width="320" height="30"/>
+  <text x="720" y="418" class="component-text" text-anchor="middle">API Gateway (CORS + Rate Limiting)</text>
+  
+  <!-- EXTERNAL SERVICES -->
+  <text x="1160" y="105" class="title-text" text-anchor="middle">External Integrations</text>
+  
+  <!-- Judge0 -->
+  <rect class="external-box" x="980" y="140" width="360" height="100"/>
+  <text x="1160" y="165" class="subtitle-text" text-anchor="middle">Judge0 Code Execution Engine</text>
+  <text x="1160" y="188" class="small-text" text-anchor="middle">Supported Languages:</text>
+  <text x="1160" y="202" class="small-text" text-anchor="middle">Python, Java, C++, JavaScript, C, Ruby, Go</text>
+  <text x="1160" y="216" class="small-text" text-anchor="middle">Features: Sandboxed execution, Time/Memory limits</text>
+  <text x="1160" y="230" class="small-text" text-anchor="middle">Security: API Key authentication, Isolated containers</text>
+  
+  <!-- Lovable AI -->
+  <rect class="external-box" x="980" y="255" width="360" height="130"/>
+  <text x="1160" y="280" class="subtitle-text" text-anchor="middle">Lovable AI Gateway</text>
+  <text x="1160" y="303" class="small-text" text-anchor="middle">AI Models:</text>
+  <text x="1160" y="317" class="small-text" text-anchor="middle">• Google Gemini 2.5 Pro/Flash/Lite</text>
+  <text x="1160" y="331" class="small-text" text-anchor="middle">• OpenAI GPT-5 / GPT-5-mini / GPT-5-nano</text>
+  <text x="1160" y="345" class="small-text" text-anchor="middle">Capabilities: Career advice, Course suggestions</text>
+  <text x="1160" y="359" class="small-text" text-anchor="middle">Job recommendations, Trend analysis</text>
+  <text x="1160" y="373" class="small-text" text-anchor="middle">Security: Server-side API key (no user keys required)</text>
+  
+  <!-- Email Service -->
+  <rect class="external-box" x="980" y="400" width="360" height="50"/>
+  <text x="1160" y="423" class="subtitle-text" text-anchor="middle">Email Service (Supabase Auth)</text>
+  <text x="1160" y="441" class="small-text" text-anchor="middle">Password reset, Email verification, Notifications</text>
+  
+  <!-- DATA LAYER -->
+  <text x="690" y="525" class="title-text" text-anchor="middle">Data Layer</text>
+  
+  <!-- PostgreSQL Database -->
+  <rect class="db-box" x="40" y="540" width="1320" height="125"/>
+  <text x="700" y="565" class="subtitle-text" text-anchor="middle">PostgreSQL Database with Row-Level Security (RLS)</text>
+  
+  <!-- Tables -->
+  <rect class="component-box" x="60" y="580" width="200" height="70"/>
+  <text x="160" y="600" class="component-text" text-anchor="middle">profiles</text>
+  <text x="160" y="616" class="small-text" text-anchor="middle">user_id, full_name</text>
+  <text x="160" y="630" class="small-text" text-anchor="middle">skills[], education</text>
+  <text x="160" y="644" class="small-text" text-anchor="middle">RLS: Own profile only</text>
+  
+  <rect class="component-box" x="280" y="580" width="200" height="70"/>
+  <text x="380" y="600" class="component-text" text-anchor="middle">assessment_results</text>
+  <text x="380" y="616" class="small-text" text-anchor="middle">user_id, score</text>
+  <text x="380" y="630" class="small-text" text-anchor="middle">answers (jsonb)</text>
+  <text x="380" y="644" class="small-text" text-anchor="middle">RLS: Own results only</text>
+  
+  <rect class="component-box" x="500" y="580" width="200" height="70"/>
+  <text x="600" y="600" class="component-text" text-anchor="middle">coding_submissions</text>
+  <text x="600" y="616" class="small-text" text-anchor="middle">user_id, code</text>
+  <text x="600" y="630" class="small-text" text-anchor="middle">test_results (jsonb)</text>
+  <text x="600" y="644" class="small-text" text-anchor="middle">RLS: Own submissions</text>
+  
+  <rect class="component-box" x="720" y="580" width="200" height="70"/>
+  <text x="820" y="600" class="component-text" text-anchor="middle">user_roles</text>
+  <text x="820" y="616" class="small-text" text-anchor="middle">user_id, role</text>
+  <text x="820" y="630" class="small-text" text-anchor="middle">enum: user | admin</text>
+  <text x="820" y="644" class="small-text" text-anchor="middle">RLS: Public read</text>
+  
+  <!-- Database Functions & Triggers -->
+  <rect class="component-box" x="940" y="580" width="200" height="70"/>
+  <text x="1040" y="600" class="component-text" text-anchor="middle">DB Functions</text>
+  <text x="1040" y="616" class="small-text" text-anchor="middle">handle_new_user()</text>
+  <text x="1040" y="630" class="small-text" text-anchor="middle">update_updated_at()</text>
+  <text x="1040" y="644" class="small-text" text-anchor="middle">has_role(user, role)</text>
+  
+  <rect class="component-box" x="1160" y="580" width="180" height="70"/>
+  <text x="1250" y="600" class="component-text" text-anchor="middle">Triggers</text>
+  <text x="1250" y="616" class="small-text" text-anchor="middle">Auto-create profile</text>
+  <text x="1250" y="630" class="small-text" text-anchor="middle">Update timestamps</text>
+  <text x="1250" y="644" class="small-text" text-anchor="middle">Validation</text>
+  
+  <!-- SECURITY & CROSS-CUTTING CONCERNS -->
+  <text x="690" y="745" class="title-text" text-anchor="middle">Security & Cross-Cutting Concerns</text>
+  
+  <!-- Security Features -->
+  <rect class="layer-box" x="40" y="760" width="300" height="165"/>
+  <text x="190" y="782" class="subtitle-text" text-anchor="middle">Security Features</text>
+  <text x="190" y="805" class="small-text" text-anchor="middle">✓ JWT Token Authentication</text>
+  <text x="190" y="821" class="small-text" text-anchor="middle">✓ Row-Level Security (RLS) Policies</text>
+  <text x="190" y="837" class="small-text" text-anchor="middle">✓ Role-Based Access Control (RBAC)</text>
+  <text x="190" y="853" class="small-text" text-anchor="middle">✓ Input Validation (Zod Schemas)</text>
+  <text x="190" y="869" class="small-text" text-anchor="middle">✓ SQL Injection Prevention</text>
+  <text x="190" y="885" class="small-text" text-anchor="middle">✓ CORS Protection</text>
+  <text x="190" y="901" class="small-text" text-anchor="middle">✓ API Key Management (Secrets)</text>
+  <text x="190" y="917" class="small-text" text-anchor="middle">✓ Secure Code Execution Sandbox</text>
+  
+  <!-- Performance Optimization -->
+  <rect class="layer-box" x="360" y="760" width="300" height="165"/>
+  <text x="510" y="782" class="subtitle-text" text-anchor="middle">Performance Optimization</text>
+  <text x="510" y="805" class="small-text" text-anchor="middle">✓ TanStack Query Caching</text>
+  <text x="510" y="821" class="small-text" text-anchor="middle">✓ Code Splitting (React.lazy)</text>
+  <text x="510" y="837" class="small-text" text-anchor="middle">✓ Vite Build Optimization</text>
+  <text x="510" y="853" class="small-text" text-anchor="middle">✓ Database Indexing</text>
+  <text x="510" y="869" class="small-text" text-anchor="middle">✓ Connection Pooling</text>
+  <text x="510" y="885" class="small-text" text-anchor="middle">✓ Edge Function Auto-scaling</text>
+  <text x="510" y="901" class="small-text" text-anchor="middle">✓ Optimistic UI Updates</text>
+  <text x="510" y="917" class="small-text" text-anchor="middle">✓ Image Lazy Loading</text>
+  
+  <!-- Monitoring & DevOps -->
+  <rect class="layer-box" x="680" y="760" width="300" height="165"/>
+  <text x="830" y="782" class="subtitle-text" text-anchor="middle">Monitoring & DevOps</text>
+  <text x="830" y="805" class="small-text" text-anchor="middle">✓ Edge Function Logs</text>
+  <text x="830" y="821" class="small-text" text-anchor="middle">✓ Database Query Monitoring</text>
+  <text x="830" y="837" class="small-text" text-anchor="middle">✓ Error Boundaries</text>
+  <text x="830" y="853" class="small-text" text-anchor="middle">✓ Automated Migrations</text>
+  <text x="830" y="869" class="small-text" text-anchor="middle">✓ CI/CD Pipeline</text>
+  <text x="830" y="885" class="small-text" text-anchor="middle">✓ Environment Variables</text>
+  <text x="830" y="901" class="small-text" text-anchor="middle">✓ Database Backups</text>
+  <text x="830" y="917" class="small-text" text-anchor="middle">✓ Version Control (Git)</text>
+  
+  <!-- User Experience -->
+  <rect class="layer-box" x="1000" y="760" width="360" height="165"/>
+  <text x="1180" y="782" class="subtitle-text" text-anchor="middle">User Experience Design</text>
+  <text x="1180" y="805" class="small-text" text-anchor="middle">✓ Dark Mode by Default</text>
+  <text x="1180" y="821" class="small-text" text-anchor="middle">✓ Responsive Design (Mobile-First)</text>
+  <text x="1180" y="837" class="small-text" text-anchor="middle">✓ Toast Notifications (Sonner)</text>
+  <text x="1180" y="853" class="small-text" text-anchor="middle">✓ Loading States & Skeletons</text>
+  <text x="1180" y="869" class="small-text" text-anchor="middle">✓ Keyboard Navigation Support</text>
+  <text x="1180" y="885" class="small-text" text-anchor="middle">✓ ARIA Labels & Semantic HTML</text>
+  <text x="1180" y="901" class="small-text" text-anchor="middle">✓ Smooth Animations (Tailwind Animate)</text>
+  <text x="1180" y="917" class="small-text" text-anchor="middle">✓ Real-time Feedback</text>
+  
+  <!-- Arrows: Frontend to Backend -->
+  <path class="arrow" d="M 460 200 L 540 200"/>
+  <path class="arrow" d="M 460 290 L 540 290"/>
+  <path class="arrow" d="M 460 370 L 540 370"/>
+  
+  <!-- Arrows: Backend to External Services -->
+  <path class="external-arrow" d="M 880 200 L 980 180"/>
+  <path class="external-arrow" d="M 880 295 L 980 315"/>
+  <path class="external-arrow" d="M 880 370 L 980 425"/>
+  
+  <!-- Arrows: Backend to Database -->
+  <path class="data-arrow" d="M 720 440 L 720 540"/>
+  <path class="data-arrow" d="M 600 440 L 380 540"/>
+  <path class="data-arrow" d="M 840 440 L 820 540"/>
+  
+  <!-- Arrows: Frontend to Database (via Supabase Client) -->
+  <path class="data-arrow" d="M 250 440 L 250 480 L 160 540"/>
+  
+  <!-- Data Flow Labels -->
+  <text x="490" y="190" class="small-text">HTTP/REST</text>
+  <text x="910" y="170" class="small-text">Judge0 API</text>
+  <text x="910" y="305" class="small-text">AI Gateway</text>
+  <text x="740" y="475" class="small-text">SQL Queries</text>
+  <text x="180" y="470" class="small-text">Realtime</text>
+  
+  <!-- Architecture Notes -->
+  <text x="700" y="975" class="small-text" text-anchor="middle">Architecture Pattern: Three-Tier (Presentation - Application - Data) | Deployment: Serverless (Edge Functions) + Managed Database</text>
+  <text x="700" y="992" class="small-text" text-anchor="middle">Key Technologies: React + TypeScript, Supabase (PostgreSQL + Edge Functions), TanStack Query, Tailwind CSS, Monaco Editor, Zod Validation</text>
+</svg>
