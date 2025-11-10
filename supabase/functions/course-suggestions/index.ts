@@ -55,8 +55,8 @@ Deno.serve(async (req) => {
       throw new Error('LOVABLE_API_KEY not configured');
     }
 
-    const systemPrompt = 'You are an education advisor with knowledge of top certification programs and courses from reputable organizations like AWS, Google, Microsoft, Coursera, edX, and industry-recognized certification bodies.';
-    const userPrompt = `Based on these skills: ${skills.join(', ')}, suggest 6 relevant certification courses or programs. Focus on well-known certifications from AWS, Google Cloud, Microsoft, Oracle, CompTIA, and similar reputable organizations. For each, provide: course title, provider, level (Beginner/Intermediate/Advanced), duration, price (use "Free", "$XX", or "$XXX" ranges), and relevant skills covered. Format as JSON array: [{ title, provider, level, duration, price, skills: [] }]`;
+    const systemPrompt = 'You are an education advisor with knowledge of top certification programs and courses from reputable organizations like AWS, Google, Microsoft, Coursera, edX, and industry-recognized certification bodies. You have access to real course URLs.';
+    const userPrompt = `Based on these skills: ${skills.join(', ')}, suggest 6 relevant certification courses or programs. Focus on well-known certifications from AWS, Google Cloud, Microsoft, Oracle, CompTIA, and similar reputable organizations. For each, provide: course title, provider, level (Beginner/Intermediate/Advanced), duration, price (use "Free", "$XX", or "$XXX" ranges), relevant skills covered, and the actual URL/link to the course page. IMPORTANT: Include real, working URLs to the actual course pages on the provider's website. Format as JSON array: [{ title, provider, level, duration, price, skills: [], url: "https://..." }]`;
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
