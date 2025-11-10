@@ -107,20 +107,38 @@ const CareerPath = () => {
         <>
           {/* Tech Trends */}
           {trends.length > 0 && (
-            <Card className="border-2 mb-6 animate-fade-in">
-              <CardHeader>
-                <div className="flex items-center gap-2">
-                  <TrendingUp className="h-5 w-5 text-primary" />
-                  <CardTitle>Current Tech Trends 2025</CardTitle>
+            <Card className="border-2 mb-8 animate-fade-in bg-gradient-to-br from-background via-background to-primary/5">
+              <CardHeader className="pb-4">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2 rounded-lg bg-primary/10">
+                    <TrendingUp className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-2xl">Current Tech Trends 2025</CardTitle>
+                    <CardDescription className="text-base mt-1">AI-powered insights on emerging industry trends</CardDescription>
+                  </div>
                 </div>
-                <CardDescription>AI-powered insights on industry trends</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3">
                 {trends.map((trend: any, index: number) => (
-                  <div key={index} className="p-4 rounded-lg border hover:border-primary/50 transition-all">
-                    <h3 className="font-semibold text-lg mb-2">{trend.name}</h3>
-                    <p className="text-muted-foreground mb-2">{trend.description}</p>
-                    <Badge variant="outline">{trend.importance}</Badge>
+                  <div 
+                    key={index} 
+                    className="group p-5 rounded-xl border-2 bg-card hover:border-primary/60 hover:shadow-lg transition-all duration-300 hover:scale-[1.02]"
+                  >
+                    <div className="flex items-start justify-between mb-3">
+                      <h3 className="font-bold text-xl text-foreground group-hover:text-primary transition-colors">
+                        {trend.name}
+                      </h3>
+                      <Badge 
+                        variant="secondary" 
+                        className="bg-primary/10 text-primary border-primary/20 font-semibold"
+                      >
+                        {trend.importance}
+                      </Badge>
+                    </div>
+                    <p className="text-muted-foreground leading-relaxed text-base">
+                      {trend.description}
+                    </p>
                   </div>
                 ))}
               </CardContent>
@@ -129,48 +147,59 @@ const CareerPath = () => {
 
           {/* Job Recommendations */}
           {jobSuggestions.length > 0 && (
-            <Card className="border-2 mb-6 animate-fade-in">
-              <CardHeader>
-                <div className="flex items-center gap-2">
-                  <Briefcase className="h-5 w-5 text-primary" />
-                  <CardTitle>AI-Suggested Job Roles</CardTitle>
+            <Card className="border-2 mb-8 animate-fade-in bg-gradient-to-br from-background via-background to-secondary/5">
+              <CardHeader className="pb-4">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2 rounded-lg bg-secondary/10">
+                    <Briefcase className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-2xl">AI-Suggested Job Roles</CardTitle>
+                    <CardDescription className="text-base mt-1">Personalized roles matching your skill profile</CardDescription>
+                  </div>
                 </div>
-                <CardDescription>Roles matching your skill profile</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3">
                 {jobSuggestions.map((job: any, index: number) => (
-                  <div key={index} className="p-4 rounded-lg border hover:border-primary/50 transition-all">
-                    <div className="flex items-start justify-between mb-3">
-                      <div>
-                        <h3 className="font-semibold text-lg">{job.title}</h3>
-                        <p className="text-muted-foreground">{job.salary}</p>
+                  <div key={index} className="group p-5 rounded-xl border-2 bg-card hover:border-primary/60 hover:shadow-lg transition-all duration-300">
+                    <div className="flex items-start justify-between mb-4">
+                      <div className="flex-1">
+                        <h3 className="font-bold text-xl text-foreground mb-1 group-hover:text-primary transition-colors">
+                          {job.title}
+                        </h3>
+                        <p className="text-muted-foreground font-medium text-base">{job.salary}</p>
                       </div>
-                      <Badge variant={parseInt(job.match) >= 80 ? 'default' : 'outline'}>
+                      <Badge 
+                        variant={parseInt(job.match) >= 80 ? 'default' : 'outline'}
+                        className="ml-3 text-sm px-3 py-1"
+                      >
                         {job.match}% Match
                       </Badge>
                     </div>
-                    <div className="flex flex-wrap gap-2 mb-3">
+                    <div className="flex flex-wrap gap-2 mb-4">
                       {job.skills?.map((skill: string, idx: number) => (
-                        <Badge key={idx} variant="secondary">{skill}</Badge>
+                        <Badge key={idx} variant="secondary" className="text-sm">
+                          {skill}
+                        </Badge>
                       ))}
                     </div>
                     {job.links && (
-                      <div className="flex flex-wrap gap-2 pt-3 border-t">
-                        <Button variant="outline" size="sm" asChild>
-                          <a href={job.links.naukri} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
-                            <ExternalLink className="h-3 w-3" />
+                      <div className="flex flex-wrap gap-2 pt-4 border-t border-border/50">
+                        <Button variant="outline" size="sm" asChild className="hover:bg-primary hover:text-primary-foreground">
+                          <a href={job.links.naukri} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
+                            <ExternalLink className="h-3.5 w-3.5" />
                             Naukri.com
                           </a>
                         </Button>
-                        <Button variant="outline" size="sm" asChild>
-                          <a href={job.links.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
-                            <ExternalLink className="h-3 w-3" />
+                        <Button variant="outline" size="sm" asChild className="hover:bg-primary hover:text-primary-foreground">
+                          <a href={job.links.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
+                            <ExternalLink className="h-3.5 w-3.5" />
                             LinkedIn
                           </a>
                         </Button>
-                        <Button variant="outline" size="sm" asChild>
-                          <a href={job.links.indeed} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1">
-                            <ExternalLink className="h-3 w-3" />
+                        <Button variant="outline" size="sm" asChild className="hover:bg-primary hover:text-primary-foreground">
+                          <a href={job.links.indeed} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
+                            <ExternalLink className="h-3.5 w-3.5" />
                             Indeed India
                           </a>
                         </Button>
@@ -184,39 +213,52 @@ const CareerPath = () => {
 
           {/* Learning Roadmap */}
           {roadmap.length > 0 && (
-            <Card className="border-2 animate-fade-in">
-              <CardHeader>
-                <div className="flex items-center gap-2">
-                  <BookOpen className="h-5 w-5 text-primary" />
-                  <CardTitle>6-Month Learning Roadmap</CardTitle>
+            <Card className="border-2 animate-fade-in bg-gradient-to-br from-background via-background to-accent/5">
+              <CardHeader className="pb-4">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="p-2 rounded-lg bg-accent/10">
+                    <BookOpen className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <CardTitle className="text-2xl">6-Month Learning Roadmap</CardTitle>
+                    <CardDescription className="text-base mt-1">Your AI-generated personalized learning journey</CardDescription>
+                  </div>
                 </div>
-                <CardDescription>AI-generated personalized learning path</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3">
                 {roadmap.map((phase: any, index: number) => (
-                  <div key={index} className="p-4 rounded-lg border hover:border-primary/50 transition-all">
-                    <div className="flex items-center justify-between mb-3">
-                      <h3 className="font-semibold text-lg">{phase.phase}</h3>
-                      <Badge variant="outline">{phase.duration}</Badge>
+                  <div key={index} className="group p-5 rounded-xl border-2 bg-card hover:border-primary/60 hover:shadow-lg transition-all duration-300">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="font-bold text-xl text-foreground group-hover:text-primary transition-colors">
+                        {phase.phase}
+                      </h3>
+                      <Badge variant="secondary" className="bg-accent/10 text-primary border-accent/20 font-semibold text-sm px-3 py-1">
+                        {phase.duration}
+                      </Badge>
                     </div>
-                    <div className="space-y-2">
-                      <p className="text-sm font-medium">Topics to Learn:</p>
-                      <div className="flex flex-wrap gap-2">
-                        {phase.topics?.map((topic: string, idx: number) => (
-                          <Badge key={idx} variant="secondary" className="text-xs">
-                            {topic}
-                          </Badge>
-                        ))}
+                    <div className="space-y-4">
+                      <div>
+                        <p className="text-sm font-semibold text-foreground mb-2">Topics to Master:</p>
+                        <div className="flex flex-wrap gap-2">
+                          {phase.topics?.map((topic: string, idx: number) => (
+                            <Badge key={idx} variant="secondary" className="text-sm">
+                              {topic}
+                            </Badge>
+                          ))}
+                        </div>
                       </div>
                       {phase.resources && phase.resources.length > 0 && (
-                        <>
-                          <p className="text-sm font-medium mt-3">Resources:</p>
-                          <ul className="list-disc list-inside text-sm text-muted-foreground">
+                        <div className="pt-3 border-t border-border/50">
+                          <p className="text-sm font-semibold text-foreground mb-2">Recommended Resources:</p>
+                          <ul className="space-y-1.5 text-sm text-muted-foreground">
                             {phase.resources.map((resource: string, idx: number) => (
-                              <li key={idx}>{resource}</li>
+                              <li key={idx} className="flex items-start gap-2">
+                                <span className="text-primary mt-1">•</span>
+                                <span className="flex-1">{resource}</span>
+                              </li>
                             ))}
                           </ul>
-                        </>
+                        </div>
                       )}
                     </div>
                   </div>
