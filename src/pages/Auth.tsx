@@ -22,16 +22,21 @@ const Auth = () => {
   const [isResettingPassword, setIsResettingPassword] = useState(false);
 
   useEffect(() => {
-    if (user) {
-      navigate('/dashboard');
+    // Check if this is a password recovery link from email
+    const hashParams = new URLSearchParams(window.location.hash.substring(1));
+    const type = hashParams.get('type');
+    
+    if (type === 'recovery') {
+      // This is a password reset link - show the reset form
+      setIsResettingPassword(true);
+      return;
     }
     
-    // Check if returning from password reset email
-    const resetParam = searchParams.get('reset');
-    if (resetParam === 'true') {
-      setIsResettingPassword(true);
+    // If user is already logged in and not resetting password, go to dashboard
+    if (user && !isResettingPassword) {
+      navigate('/dashboard');
     }
-  }, [user, navigate, searchParams]);
+  }, [user, navigate, isResettingPassword]);
 
   const handleEmailSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
