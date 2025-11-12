@@ -83,21 +83,22 @@ export function AIMentor() {
 
       {/* Chat Panel */}
       {isOpen && (
-        <Card className="fixed bottom-6 right-6 w-96 h-[600px] shadow-2xl z-50 flex flex-col animate-fade-in">
-          <CardHeader className="border-b flex-row items-center justify-between space-y-0 pb-4">
-            <CardTitle className="flex items-center gap-2">
-              <Bot className="h-5 w-5 text-primary" />
-              AI Career Mentor
+        <Card className="fixed bottom-4 right-4 w-[calc(100vw-2rem)] max-w-md h-[600px] max-h-[80vh] shadow-2xl z-50 flex flex-col animate-fade-in md:bottom-6 md:right-6">
+          <CardHeader className="border-b flex-row items-center justify-between space-y-0 pb-4 px-4">
+            <CardTitle className="flex items-center gap-2 text-base">
+              <Bot className="h-5 w-5 text-primary flex-shrink-0" />
+              <span className="truncate">AI Career Mentor</span>
             </CardTitle>
             <Button
               variant="ghost"
               size="icon"
               onClick={() => setIsOpen(false)}
+              className="flex-shrink-0"
             >
               <X className="h-4 w-4" />
             </Button>
           </CardHeader>
-          <CardContent className="flex-1 flex flex-col p-0">
+          <CardContent className="flex-1 flex flex-col p-0 overflow-hidden">
             <ScrollArea className="flex-1 p-4">
               <div className="space-y-4">
                 {messages.map((message, index) => (
@@ -108,13 +109,13 @@ export function AIMentor() {
                     }`}
                   >
                     <div
-                      className={`max-w-[80%] rounded-lg p-3 break-words overflow-hidden ${
+                      className={`max-w-[85%] rounded-lg p-3 ${
                         message.role === "user"
                           ? "bg-primary text-primary-foreground"
                           : "bg-muted"
                       }`}
                     >
-                      <p className="text-sm whitespace-pre-wrap break-words">{message.content}</p>
+                      <p className="text-sm whitespace-pre-wrap break-words overflow-wrap-anywhere">{message.content}</p>
                     </div>
                   </div>
                 ))}
@@ -127,7 +128,7 @@ export function AIMentor() {
                 )}
               </div>
             </ScrollArea>
-            <div className="border-t p-4">
+            <div className="border-t p-4 flex-shrink-0">
               <div className="flex gap-2">
                 <Input
                   value={input}
@@ -135,11 +136,13 @@ export function AIMentor() {
                   onKeyPress={(e) => e.key === "Enter" && sendMessage()}
                   placeholder="Ask me anything..."
                   disabled={isLoading}
+                  className="flex-1 min-w-0"
                 />
                 <Button
                   onClick={sendMessage}
                   disabled={isLoading || !input.trim()}
                   size="icon"
+                  className="flex-shrink-0"
                 >
                   <Send className="h-4 w-4" />
                 </Button>

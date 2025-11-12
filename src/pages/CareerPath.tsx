@@ -108,30 +108,30 @@ const CareerPath = () => {
           {/* Tech Trends */}
           {trends.length > 0 && (
             <Card className="border-2 mb-8 animate-fade-in bg-gradient-to-br from-background via-background to-primary/5">
-              <CardHeader className="pb-4">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="p-2 rounded-lg bg-primary/10">
+              <CardHeader className="pb-6">
+                <div className="flex items-center gap-3">
+                  <div className="p-2.5 rounded-lg bg-primary/10">
                     <TrendingUp className="h-6 w-6 text-primary" />
                   </div>
-                  <div>
-                    <CardTitle className="text-2xl">Current Tech Trends 2025</CardTitle>
-                    <CardDescription className="text-base mt-1">AI-powered insights on emerging industry trends</CardDescription>
+                  <div className="flex-1">
+                    <CardTitle className="text-2xl md:text-3xl mb-1">Current Tech Trends 2025</CardTitle>
+                    <CardDescription className="text-base">AI-powered insights on emerging industry trends</CardDescription>
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-3">
+              <CardContent className="space-y-4">
                 {trends.map((trend: any, index: number) => (
                   <div 
                     key={index} 
-                    className="group p-5 rounded-xl border-2 bg-card hover:border-primary/60 hover:shadow-lg transition-all duration-300 hover:scale-[1.02]"
+                    className="group p-6 rounded-xl border-2 bg-card hover:border-primary/60 hover:shadow-lg transition-all duration-300 hover:scale-[1.01]"
                   >
-                    <div className="flex items-start justify-between mb-3">
-                      <h3 className="font-bold text-xl text-foreground group-hover:text-primary transition-colors">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
+                      <h3 className="font-bold text-xl text-foreground group-hover:text-primary transition-colors flex-1">
                         {trend.name}
                       </h3>
                       <Badge 
                         variant="secondary" 
-                        className="bg-primary/10 text-primary border-primary/20 font-semibold"
+                        className="bg-primary/10 text-primary border-primary/20 font-semibold self-start"
                       >
                         {trend.importance}
                       </Badge>
