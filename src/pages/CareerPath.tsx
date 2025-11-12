@@ -119,24 +119,26 @@ const CareerPath = () => {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-5">
                 {trends.map((trend: any, index: number) => (
                   <div 
                     key={index} 
-                    className="group p-6 rounded-xl border-2 bg-card hover:border-primary/60 hover:shadow-lg transition-all duration-300 hover:scale-[1.01]"
+                    className="group p-6 rounded-xl border bg-border/40 bg-card hover:border-primary/50 hover:shadow-md transition-all duration-300"
                   >
-                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
-                      <h3 className="font-bold text-xl text-foreground group-hover:text-primary transition-colors flex-1">
-                        {trend.name}
-                      </h3>
-                      <Badge 
-                        variant="secondary" 
-                        className="bg-primary/10 text-primary border-primary/20 font-semibold self-start"
-                      >
-                        {trend.importance}
-                      </Badge>
+                    <div className="flex flex-col gap-3 mb-4">
+                      <div className="flex items-start justify-between gap-4">
+                        <h3 className="font-bold text-lg text-foreground group-hover:text-primary transition-colors leading-tight">
+                          {trend.name}
+                        </h3>
+                        <Badge 
+                          variant="secondary" 
+                          className="bg-primary/10 text-primary border-primary/20 font-medium shrink-0 text-xs px-2.5 py-1"
+                        >
+                          {trend.importance}
+                        </Badge>
+                      </div>
                     </div>
-                    <p className="text-muted-foreground leading-relaxed text-base">
+                    <p className="text-muted-foreground leading-relaxed text-sm">
                       {trend.description}
                     </p>
                   </div>
