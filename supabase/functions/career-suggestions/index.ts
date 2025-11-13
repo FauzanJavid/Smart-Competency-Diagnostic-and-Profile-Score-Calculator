@@ -65,15 +65,17 @@ Deno.serve(async (req) => {
     let systemPrompt = '';
     let userPrompt = '';
 
+    const timestamp = Date.now();
+    
     if (type === 'jobs') {
-      systemPrompt = 'You are a career advisor with deep knowledge of the Indian tech industry and current job market trends. Provide realistic, actionable job role suggestions with Indian salary ranges.';
-      userPrompt = `Based on these skills: ${skills.join(', ')}, suggest 5 realistic job roles that match in the Indian job market. For each role, provide: job title (be specific and realistic), match percentage (realistic 60-95%), required skills array, and average annual salary range in Indian Rupees (use format like "₹8-12 LPA" or "₹15-25 LPA"). Format as JSON array with structure: [{ title, match, skills: [], salary }]`;
+      systemPrompt = 'You are a career advisor with deep knowledge of the Indian tech industry and current job market trends. Provide realistic, actionable job role suggestions with Indian salary ranges. IMPORTANT: Generate DIFFERENT and VARIED job suggestions each time, exploring different aspects and levels of roles.';
+      userPrompt = `[Request ID: ${timestamp}] Based on these skills: ${skills.join(', ')}, suggest 5 DIFFERENT realistic job roles that match in the Indian job market. Vary your suggestions to explore different career paths, industries, and role types. For each role, provide: job title (be specific and realistic), match percentage (realistic 60-95%), required skills array, and average annual salary range in Indian Rupees (use format like "₹8-12 LPA" or "₹15-25 LPA"). Format as JSON array with structure: [{ title, match, skills: [], salary }]`;
     } else if (type === 'trends') {
-      systemPrompt = 'You are a technology trends analyst. Provide current, factual information about technology trends in 2025.';
-      userPrompt = 'List 5 current technology trends in 2025 that are most relevant for career development. Include: trend name, description, and why it matters. Format as JSON array: [{ name, description, importance }]';
+      systemPrompt = 'You are a technology trends analyst. Provide current, factual information about technology trends in 2025. IMPORTANT: Generate DIFFERENT trends each time to provide varied insights.';
+      userPrompt = `[Request ID: ${timestamp}] List 5 DIFFERENT current technology trends in 2025 that are most relevant for career development. Provide fresh, varied insights each time. Include: trend name, description, and why it matters. Format as JSON array: [{ name, description, importance }]`;
     } else if (type === 'roadmap') {
-      systemPrompt = 'You are a career development coach. Create practical, step-by-step learning roadmaps.';
-      userPrompt = `Create a 6-month learning roadmap for someone with these skills: ${skills.join(', ')} who wants to advance their career. Include: phase name, duration, topics to learn, and resources. Format as JSON array: [{ phase, duration, topics: [], resources: [] }]`;
+      systemPrompt = 'You are a career development coach. Create practical, step-by-step learning roadmaps. IMPORTANT: Generate VARIED learning paths each time to explore different approaches.';
+      userPrompt = `[Request ID: ${timestamp}] Create a 6-month learning roadmap for someone with these skills: ${skills.join(', ')} who wants to advance their career. Provide a DIFFERENT approach and focus areas compared to previous suggestions. Include: phase name, duration, topics to learn, and resources. Format as JSON array: [{ phase, duration, topics: [], resources: [] }]`;
     }
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
